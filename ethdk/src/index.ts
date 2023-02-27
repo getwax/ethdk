@@ -1,7 +1,6 @@
-const test = (): void => {
-  console.log('This is a test')
-}
+import { createAccount, generatePrivateKey } from './Ethdk'
 
 export {
-  test
+  createAccount,
+  generatePrivateKey
 }
