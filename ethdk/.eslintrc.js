@@ -12,7 +12,7 @@ module.exports = {
     project: './tsconfig.json',
     tsconfigRootDir: __dirname
   },
-  ignorePatterns: ['test/**/*', 'dist/**/*', 'node_modules/**/*'],
+  ignorePatterns: ['dist/**/*', 'node_modules/**/*'],
   rules: {
     indent: ['error', 2]
   }
