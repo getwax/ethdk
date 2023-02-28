@@ -42,6 +42,11 @@ export default class BlsAccount implements Account {
     return await BlsWalletWrapper.getRandomBlsPrivateKey()
   }
 
+  /**
+   * Sends a transaction to the aggregator to be bundled and submitted to the L2
+   * @param params Array of transactions
+   * @returns Transaction hash of the transaction that was sent to the aggregator
+   */
   async sendTransaction (params: SendTransactionParams[]): Promise<string> {
     const actions = params.map((tx) => ({
       ethValue: tx.value ?? '0',
@@ -55,6 +60,13 @@ export default class BlsAccount implements Account {
     return await addBundleToAggregator(bundle)
   }
 
+  /**
+   * Sets the trusted account for this account. The trusted account will be able to reset this accounts private key
+   * by calling the recoverWallet function using this accounts address and the recovery phrase.
+   * @param recoveryPhrase String that is used as salt to generate the recovery hash
+   * @param trustedAccountAddress Address of the account that will be able to reset this accounts private key
+   * @returns Transaction hash of the transaction that was sent to the aggregator
+   */
   async setTrustedAccount (recoveryPhrase: string, trustedAccountAddress: string): Promise<string> {
     const bundle = await this.wallet.getSetRecoveryHashBundle(
       recoveryPhrase,
