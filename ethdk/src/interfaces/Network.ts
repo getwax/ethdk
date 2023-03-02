@@ -1,6 +1,6 @@
 export interface Network {
   name: string
-  chainId: string
+  chainId: number
   rpcUrl: string
 }
 
