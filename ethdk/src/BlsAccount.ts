@@ -1,20 +1,23 @@
 import { BlsWalletWrapper, Aggregator, type Bundle } from 'bls-wallet-clients'
 import { ethers } from 'ethers'
+import BlsTransaction from './BlsTransaction'
+import type Transaction from './interfaces/Transaction'
 import type Account from './interfaces/Account'
 import type SendTransactionParams from './interfaces/SendTransactionParams'
+import { type BlsNetwork } from './interfaces/Network'
 
-// Initially we are just using the local network. This will be replaced with a
-// dynamic network selection in the future.
-const NETWORK = {
+// TODO (ethdk #10) Initially we are just using the local network. This will be
+// replaced with a dynamic network selection in the future.
+const NETWORK: BlsNetwork = {
   name: 'localhost',
-  chainId: '31337',
+  chainId: 31337,
   rpcUrl: 'http://localhost:8545',
   aggregatorUrl: 'http://localhost:3000',
   verificationGateway: '0x689A095B4507Bfa302eef8551F90fB322B3451c6'
 }
 
 export default class BlsAccount implements Account {
-  public static accountType: string = 'bls'
+  static accountType: string = 'bls'
 
   address: string
   private readonly privateKey: string
@@ -47,7 +50,7 @@ export default class BlsAccount implements Account {
    * @param params Array of transactions
    * @returns Transaction hash of the transaction that was sent to the aggregator
    */
-  async sendTransaction (params: SendTransactionParams[]): Promise<string> {
+  async sendTransaction (params: SendTransactionParams[]): Promise<Transaction> {
     const actions = params.map((tx) => ({
       ethValue: tx.value ?? '0',
       contractAddress: tx.to,
@@ -67,7 +70,7 @@ export default class BlsAccount implements Account {
    * @param trustedAccountAddress Address of the account that will be able to reset this accounts private key
    * @returns Transaction hash of the transaction that was sent to the aggregator
    */
-  async setTrustedAccount (recoveryPhrase: string, trustedAccountAddress: string): Promise<string> {
+  async setTrustedAccount (recoveryPhrase: string, trustedAccountAddress: string): Promise<Transaction> {
     const bundle = await this.wallet.getSetRecoveryHashBundle(
       recoveryPhrase,
       trustedAccountAddress
@@ -75,9 +78,20 @@ export default class BlsAccount implements Account {
 
     return await addBundleToAggregator(bundle)
   }
+
+  /**
+   * Get the balance of this account
+   * @returns The balance of this account formated in ether (instead of wei)
+   */
+  async getBalance (): Promise<string> {
+    const provider = new ethers.providers.JsonRpcProvider(NETWORK.rpcUrl)
+    const balance = await provider.getBalance(this.address)
+
+    return ethers.utils.formatEther(balance)
+  }
 }
 
-async function addBundleToAggregator (bundle: Bundle): Promise<string> {
+async function addBundleToAggregator (bundle: Bundle): Promise<Transaction> {
   const agg = new Aggregator(NETWORK.aggregatorUrl)
   const result = await agg.add(bundle)
 
@@ -85,5 +99,5 @@ async function addBundleToAggregator (bundle: Bundle): Promise<string> {
     throw new Error(JSON.stringify(result))
   }
 
-  return result.hash
+  return new BlsTransaction(NETWORK, result.hash)
 }
