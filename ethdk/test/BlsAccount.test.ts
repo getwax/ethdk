@@ -1,6 +1,7 @@
 import { expect } from 'chai'
 import { describe, it, afterEach } from 'mocha'
 import BlsAccount from '../src/BlsAccount'
+import BlsTransaction from '../src/BlsTransaction'
 import sinon from 'sinon'
 
 import { ethers } from 'ethers'
@@ -53,13 +54,23 @@ describe('BlsAccount', () => {
   describe('sendTransaction', () => {
     it('should send a transaction successfully', async () => {
       const mockBundle = { some: 'bundle' }
+      const mockSignFunction = sinon.stub()
+      mockSignFunction.returns(mockBundle)
       const mockWallet: any = {
         address: '0x12345',
-        sign: () => mockBundle,
+        sign: mockSignFunction,
         Nonce: () => 0
       }
       sinon.stub(BlsWalletWrapper, 'connect').resolves(mockWallet)
       const account = await BlsAccount.createAccount('0x123')
+
+      const mockResult = { hash: '0x67890' }
+      const mockAggregator = sinon.createStubInstance(Aggregator)
+      mockAggregator.add.resolves(mockResult)
+
+      // Stub the getAggregator function to return the mockAggregator
+      sinon.stub(BlsAccount.prototype, 'getAggregator' as any).returns(mockAggregator as any)
+
       const params = [
         {
           to: '0x12345',
@@ -67,43 +78,47 @@ describe('BlsAccount', () => {
           data: '0x'
         }
       ]
-
-      const mockResult = { hash: '0x67890' }
-
-      const mockAggregator = sinon.createStubInstance(Aggregator)
-      mockAggregator.add.resolves(mockResult)
-      // Stub the getProvider function to return the mockProvider
-      sinon.stub(BlsAccount.prototype, 'getAggregator' as any).returns(mockAggregator as any)
-
       const transaction = await account.sendTransaction(params)
 
+      expect(transaction).to.be.instanceOf(BlsTransaction)
       expect(transaction.hash).to.equal(mockResult.hash)
+      expect(mockSignFunction.calledWith({
+        nonce: 0,
+        actions: [{
+          ethValue: params[0].value,
+          contractAddress: params[0].to,
+          encodedFunction: params[0].data
+        }]
+      })).to.equal(true)
     })
   })
 
   describe('setTrustedAccount', () => {
     it('should set a trusted account successfully', async () => {
       const mockBundle = { some: 'bundle' }
+      const mockGetSetRecoveryHashBundle = sinon.stub()
+      mockGetSetRecoveryHashBundle.returns(mockBundle)
       const mockWallet: any = {
         address: '0x12345',
-        getSetRecoveryHashBundle: () => mockBundle
+        getSetRecoveryHashBundle: mockGetSetRecoveryHashBundle
       }
-
       sinon.stub(BlsWalletWrapper, 'connect').resolves(mockWallet)
-      const account = await BlsAccount.createAccount('0x123')
-      const recoveryPhrase = 'some_recovery_phrase'
-      const trustedAccountAddress = '0x12345'
 
       const mockResult = { hash: '0x67890' }
-
       const mockAggregator = sinon.createStubInstance(Aggregator)
       mockAggregator.add.resolves(mockResult)
-      // Stub the getProvider function to return the mockProvider
+      // Stub the getAggregator function to return the mockAggregator
       sinon.stub(BlsAccount.prototype, 'getAggregator' as any).returns(mockAggregator as any)
+
+      const recoveryPhrase = 'some_recovery_phrase'
+      const trustedAccountAddress = '0x12345'
+      const account = await BlsAccount.createAccount('0x123')
 
       const transaction = await account.setTrustedAccount(recoveryPhrase, trustedAccountAddress)
 
+      expect(transaction).to.be.instanceOf(BlsTransaction)
       expect(transaction.hash).to.equal(mockResult.hash)
+      expect(mockGetSetRecoveryHashBundle.calledWith(recoveryPhrase, trustedAccountAddress)).to.equal(true)
     })
   })
 
@@ -119,7 +134,6 @@ describe('BlsAccount', () => {
       const mockBalance = ethers.utils.parseEther('10')
       const mockProvider = sinon.createStubInstance(ethers.providers.JsonRpcProvider)
       mockProvider.getBalance.resolves(mockBalance)
-
       // Stub the getProvider function to return the mockProvider
       sinon.stub(BlsAccount.prototype, 'getProvider' as any).resolves(mockProvider as any)
 
