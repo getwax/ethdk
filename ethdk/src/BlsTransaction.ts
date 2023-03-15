@@ -13,8 +13,12 @@ export default class BlsTransaction implements Transaction {
   }
 
   async getTransactionReceipt (): Promise<BundleReceipt | BundleReceiptError | undefined> {
-    const aggregator = new Aggregator(this.network.aggregatorUrl)
+    const aggregator = this.getAggregator()
     return await aggregator.lookupReceipt(this.hash)
+  }
+
+  private getAggregator (): Aggregator {
+    return new Aggregator(this.network.aggregatorUrl)
   }
 
   /**
