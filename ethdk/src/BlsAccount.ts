@@ -60,7 +60,7 @@ export default class BlsAccount implements Account {
     const nonce = await this.wallet.Nonce()
     const bundle = this.wallet.sign({ nonce, actions })
 
-    return await addBundleToAggregator(bundle)
+    return await addBundleToAggregator(this.getAggregator(), bundle)
   }
 
   /**
@@ -76,7 +76,7 @@ export default class BlsAccount implements Account {
       trustedAccountAddress
     )
 
-    return await addBundleToAggregator(bundle)
+    return await addBundleToAggregator(this.getAggregator(), bundle)
   }
 
   /**
@@ -84,15 +84,22 @@ export default class BlsAccount implements Account {
    * @returns The balance of this account formated in ether (instead of wei)
    */
   async getBalance (): Promise<string> {
-    const provider = new ethers.providers.JsonRpcProvider(NETWORK.rpcUrl)
+    const provider = await this.getProvider()
     const balance = await provider.getBalance(this.address)
 
     return ethers.utils.formatEther(balance)
   }
+
+  private async getProvider (): Promise<ethers.providers.JsonRpcProvider> {
+    return new ethers.providers.JsonRpcProvider(NETWORK.rpcUrl)
+  }
+
+  private getAggregator (): Aggregator {
+    return new Aggregator(NETWORK.aggregatorUrl)
+  }
 }
 
-async function addBundleToAggregator (bundle: Bundle): Promise<Transaction> {
-  const agg = new Aggregator(NETWORK.aggregatorUrl)
+async function addBundleToAggregator (agg: Aggregator, bundle: Bundle): Promise<Transaction> {
   const result = await agg.add(bundle)
 
   if ('failures' in result) {
