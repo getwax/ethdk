@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import { describe, it, afterEach } from 'mocha'
-import BlsAccount from '../src/BlsAccount'
-import BlsTransaction from '../src/BlsTransaction'
+import BlsAccount from '../src/Bls/BlsAccount'
+import BlsTransaction from '../src/Bls/BlsTransaction'
 import sinon from 'sinon'
 
 import { ethers } from 'ethers'
@@ -19,7 +19,11 @@ describe('BlsAccount', () => {
 
       sinon.stub(BlsWalletWrapper, 'connect').resolves(mockWallet)
 
-      const account = await BlsAccount.createAccount(privateKey)
+      const accountConfig = {
+        privateKey,
+        network: 'localhost'
+      }
+      const account = await BlsAccount.createAccount(accountConfig)
 
       expect(account).to.be.instanceOf(BlsAccount)
       expect(account.address).to.equal(mockWallet.address)
@@ -32,7 +36,7 @@ describe('BlsAccount', () => {
       sinon.stub(BlsWalletWrapper, 'connect').resolves(mockWallet)
       sinon.stub(BlsWalletWrapper, 'getRandomBlsPrivateKey').resolves(privateKey)
 
-      const account = await BlsAccount.createAccount()
+      const account = await BlsAccount.createAccount({})
 
       expect(account).to.be.instanceOf(BlsAccount)
       expect(account.address).to.equal(mockWallet.address)
@@ -62,7 +66,11 @@ describe('BlsAccount', () => {
         Nonce: () => 0
       }
       sinon.stub(BlsWalletWrapper, 'connect').resolves(mockWallet)
-      const account = await BlsAccount.createAccount('0x123')
+      const accountConfig = {
+        privateKey: '0x123',
+        network: 'localhost'
+      }
+      const account = await BlsAccount.createAccount(accountConfig)
 
       const mockResult = { hash: '0x67890' }
       const mockAggregator = sinon.createStubInstance(Aggregator)
@@ -112,7 +120,11 @@ describe('BlsAccount', () => {
 
       const recoveryPhrase = 'some_recovery_phrase'
       const trustedAccountAddress = '0x12345'
-      const account = await BlsAccount.createAccount('0x123')
+      const accountConfig = {
+        privateKey: '0x123',
+        network: 'localhost'
+      }
+      const account = await BlsAccount.createAccount(accountConfig)
 
       const transaction = await account.setTrustedAccount(recoveryPhrase, trustedAccountAddress)
 
@@ -129,7 +141,11 @@ describe('BlsAccount', () => {
 
       sinon.stub(BlsWalletWrapper, 'connect').resolves(mockWallet)
 
-      const account = await BlsAccount.createAccount(privateKey)
+      const accountConfig = {
+        privateKey,
+        network: 'localhost'
+      }
+      const account = await BlsAccount.createAccount(accountConfig)
 
       const mockBalance = ethers.utils.parseEther('10')
       const mockProvider = sinon.createStubInstance(ethers.providers.JsonRpcProvider)

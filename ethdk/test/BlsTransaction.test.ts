@@ -1,18 +1,9 @@
 import { expect } from 'chai'
 import sinon from 'sinon'
 import { Aggregator } from 'bls-wallet-clients'
-import BlsTransaction from '../src/BlsTransaction'
-import type { BlsNetwork } from '../src/interfaces/Network'
+import BlsTransaction from '../src/Bls/BlsTransaction'
 
 describe('BlsTransaction', () => {
-  const network: BlsNetwork = {
-    name: 'localhost',
-    chainId: 31337,
-    rpcUrl: 'http://localhost:8545',
-    aggregatorUrl: 'http://localhost:3000',
-    verificationGateway: '0x689A095B4507Bfa302eef8551F90fB322B3451c6'
-  }
-
   afterEach(() => {
     sinon.restore()
   })
@@ -30,7 +21,7 @@ describe('BlsTransaction', () => {
       // Stub the getAggregator function to return the mockAggregator
       sinon.stub(BlsTransaction.prototype, 'getAggregator' as any).returns(mockAggregator as any)
 
-      const transaction = new BlsTransaction(network, bundleHash)
+      const transaction = new BlsTransaction({ network: 'localhost', bundleHash })
 
       const receipt = await transaction.getTransactionReceipt()
 

@@ -1,6 +1,5 @@
-import { createAccount, generatePrivateKey } from './Ethdk'
+import { createAccount } from './Ethdk'
 
 export {
-  createAccount,
-  generatePrivateKey
+  createAccount
 }

@@ -1,5 +1,11 @@
-import BlsAccount from './BlsAccount'
+import BlsAccount from './Bls/BlsAccount'
 import type Account from './interfaces/Account'
+
+interface AccountConfig {
+  accountType: 'bls' | 'eoa'
+  privateKey?: string
+  network?: string
+}
 
 /**
  * Creates an account of the specified type
@@ -7,21 +13,12 @@ import type Account from './interfaces/Account'
  * @param privateKey Optional private key to use for the account
  * @returns An account of the specified type
  */
-export async function createAccount (accountType: string, privateKey?: string): Promise<Account> {
+export async function createAccount ({ accountType, privateKey, network }: AccountConfig): Promise<Account> {
   if (accountType === BlsAccount.accountType) {
-    return await BlsAccount.createAccount(privateKey)
-  }
-  throw new Error('Unsupported account type')
-}
-
-/**
- * Generates a private key of the specified type
- * @param accountType The type of account to create ('bls', 'eoa', etc.)
- * @returns A private key of the specified type
- */
-export async function generatePrivateKey (accountType: string): Promise<string> {
-  if (accountType === BlsAccount.accountType) {
-    return await BlsAccount.generatePrivateKey()
+    return await BlsAccount.createAccount({
+      privateKey,
+      network
+    })
   }
   throw new Error('Unsupported account type')
 }
