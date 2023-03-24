@@ -1,5 +1,3 @@
 import { createAccount } from './Ethdk'
 
-export {
-  createAccount
-}
+export { createAccount }

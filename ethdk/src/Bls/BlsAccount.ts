@@ -15,10 +15,10 @@ export default class BlsAccount implements Account {
   private readonly wallet: BlsWalletWrapper
   private readonly networkConfig: BlsNetwork
 
-  private constructor ({
+  private constructor({
     privateKey,
     wallet,
-    network
+    network,
   }: {
     privateKey: string
     wallet: BlsWalletWrapper
@@ -30,25 +30,25 @@ export default class BlsAccount implements Account {
     this.networkConfig = network
   }
 
-  static async createAccount ({
+  static async createAccount({
     privateKey,
-    network
+    network,
   }: {
     privateKey?: string
     network?: string
   }): Promise<BlsAccount> {
-    const pk = privateKey ?? await BlsWalletWrapper.getRandomBlsPrivateKey()
+    const pk = privateKey ?? (await BlsWalletWrapper.getRandomBlsPrivateKey())
     const networkConfig = getNetwork(network)
     const wallet = await BlsWalletWrapper.connect(
       pk,
       networkConfig.verificationGateway,
-      new ethers.providers.JsonRpcProvider(networkConfig.rpcUrl)
+      new ethers.providers.JsonRpcProvider(networkConfig.rpcUrl),
     )
 
     return new BlsAccount({ privateKey: pk, wallet, network: networkConfig })
   }
 
-  static async generatePrivateKey (): Promise<string> {
+  static async generatePrivateKey(): Promise<string> {
     return await BlsWalletWrapper.getRandomBlsPrivateKey()
   }
 
@@ -57,17 +57,21 @@ export default class BlsAccount implements Account {
    * @param params Array of transactions
    * @returns Transaction hash of the transaction that was sent to the aggregator
    */
-  async sendTransaction (params: SendTransactionParams[]): Promise<Transaction> {
+  async sendTransaction(params: SendTransactionParams[]): Promise<Transaction> {
     const actions = params.map((tx) => ({
       ethValue: tx.value ?? '0',
       contractAddress: tx.to,
-      encodedFunction: tx.data ?? '0x'
+      encodedFunction: tx.data ?? '0x',
     }))
 
     const nonce = await this.wallet.Nonce()
     const bundle = this.wallet.sign({ nonce, actions })
 
-    return await addBundleToAggregator(this.getAggregator(), bundle, this.networkConfig.name)
+    return await addBundleToAggregator(
+      this.getAggregator(),
+      bundle,
+      this.networkConfig.name,
+    )
   }
 
   /**
@@ -77,36 +81,47 @@ export default class BlsAccount implements Account {
    * @param trustedAccountAddress Address of the account that will be able to reset this accounts private key
    * @returns Transaction hash of the transaction that was sent to the aggregator
    */
-  async setTrustedAccount (recoveryPhrase: string, trustedAccountAddress: string): Promise<Transaction> {
+  async setTrustedAccount(
+    recoveryPhrase: string,
+    trustedAccountAddress: string,
+  ): Promise<Transaction> {
     const bundle = await this.wallet.getSetRecoveryHashBundle(
       recoveryPhrase,
-      trustedAccountAddress
+      trustedAccountAddress,
     )
 
-    return await addBundleToAggregator(this.getAggregator(), bundle, this.networkConfig.name)
+    return await addBundleToAggregator(
+      this.getAggregator(),
+      bundle,
+      this.networkConfig.name,
+    )
   }
 
   /**
    * Get the balance of this account
    * @returns The balance of this account formated in ether (instead of wei)
    */
-  async getBalance (): Promise<string> {
+  async getBalance(): Promise<string> {
     const provider = await this.getProvider()
     const balance = await provider.getBalance(this.address)
 
     return ethers.utils.formatEther(balance)
   }
 
-  private async getProvider (): Promise<ethers.providers.JsonRpcProvider> {
+  private async getProvider(): Promise<ethers.providers.JsonRpcProvider> {
     return new ethers.providers.JsonRpcProvider(this.networkConfig.rpcUrl)
   }
 
-  private getAggregator (): Aggregator {
+  private getAggregator(): Aggregator {
     return new Aggregator(this.networkConfig.aggregatorUrl)
   }
 }
 
-async function addBundleToAggregator (agg: Aggregator, bundle: Bundle, network: string): Promise<Transaction> {
+async function addBundleToAggregator(
+  agg: Aggregator,
+  bundle: Bundle,
+  network: string,
+): Promise<Transaction> {
   const result = await agg.add(bundle)
 
   if ('failures' in result) {

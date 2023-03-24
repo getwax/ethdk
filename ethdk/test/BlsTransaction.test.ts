@@ -12,21 +12,28 @@ describe('BlsTransaction', () => {
     it('should return the transaction receipt', async () => {
       const bundleHash = 'testBundleHash'
       const mockReceipt: any = {
-        bundleHash
+        bundleHash,
       }
 
       const mockAggregator = sinon.createStubInstance(Aggregator)
       mockAggregator.lookupReceipt.resolves(mockReceipt)
 
       // Stub the getAggregator function to return the mockAggregator
-      sinon.stub(BlsTransaction.prototype, 'getAggregator' as any).returns(mockAggregator as any)
+      sinon
+        .stub(BlsTransaction.prototype, 'getAggregator' as any)
+        .returns(mockAggregator as any)
 
-      const transaction = new BlsTransaction({ network: 'localhost', bundleHash })
+      const transaction = new BlsTransaction({
+        network: 'localhost',
+        bundleHash,
+      })
 
       const receipt = await transaction.getTransactionReceipt()
 
       expect(receipt).to.deep.equal(mockReceipt)
-      expect(mockAggregator.lookupReceipt.calledOnceWith(bundleHash)).to.equal(true)
+      expect(mockAggregator.lookupReceipt.calledOnceWith(bundleHash)).to.equal(
+        true,
+      )
     })
   })
 })

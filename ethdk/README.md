@@ -7,29 +7,30 @@ The approach is to then attempt integrations with low-/no-code solutions so that
 Example applications will supplement this direction to demonstrate what is possible.
 
 ## Getting started
+
 How to use ethdk
+
 ### Accounts
 
 ```typescript
-import { createAccount } from "ethdk";
+import { createAccount } from 'ethdk'
 
 // Private key param is optional. A random private key will
 // be generated if one is not provided.
 const account = createAccount({
   accountType: 'bls',
-  network: 'localhost'
-}); 
+  network: 'localhost',
+})
 
-const { address } = account;
-
+const { address } = account
 ```
 
 #### Recovery
 
 ```typescript
-const recoveryPhrase = 'Do not forget this!';
-const trustedAccount = '0x70b8...06A0';
-account.setTrustedAccount(recoveryPhrase, trustedAccount);
+const recoveryPhrase = 'Do not forget this!'
+const trustedAccount = '0x70b8...06A0'
+account.setTrustedAccount(recoveryPhrase, trustedAccount)
 ```
 
 ### Transaction
@@ -38,5 +39,5 @@ account.setTrustedAccount(recoveryPhrase, trustedAccount);
 const transaction = await account.sendTransaction(...);
 
 const { hash } = transaction;
-                                            
+
 ```

@@ -1,14 +1,21 @@
 import { Aggregator } from 'bls-wallet-clients'
-import { type BundleReceipt, type BundleReceiptError } from 'bls-wallet-clients/dist/src/Aggregator'
+import {
+  type BundleReceipt,
+  type BundleReceiptError,
+} from 'bls-wallet-clients/dist/src/Aggregator'
 import type Transaction from '../interfaces/Transaction'
 import type { BlsNetwork } from '../interfaces/Network'
 import { getNetwork } from './BlsNetworks'
 
+type ReceiptResponse = BundleReceipt | BundleReceiptError
 export default class BlsTransaction implements Transaction {
   hash: string
   network: BlsNetwork
 
-  constructor ({ bundleHash, network }: {
+  constructor({
+    bundleHash,
+    network,
+  }: {
     bundleHash: string
     network: string
   }) {
@@ -16,12 +23,12 @@ export default class BlsTransaction implements Transaction {
     this.hash = bundleHash
   }
 
-  async getTransactionReceipt (): Promise<BundleReceipt | BundleReceiptError | undefined> {
+  async getTransactionReceipt(): Promise<ReceiptResponse | undefined> {
     const aggregator = this.getAggregator()
     return await aggregator.lookupReceipt(this.hash)
   }
 
-  private getAggregator (): Aggregator {
+  private getAggregator(): Aggregator {
     return new Aggregator(this.network.aggregatorUrl)
   }
 

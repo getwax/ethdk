@@ -21,7 +21,7 @@ describe('BlsAccount', () => {
 
       const accountConfig = {
         privateKey,
-        network: 'localhost'
+        network: 'localhost',
       }
       const account = await BlsAccount.createAccount(accountConfig)
 
@@ -34,7 +34,9 @@ describe('BlsAccount', () => {
       const mockWallet: any = { address: '0x12345' }
 
       sinon.stub(BlsWalletWrapper, 'connect').resolves(mockWallet)
-      sinon.stub(BlsWalletWrapper, 'getRandomBlsPrivateKey').resolves(privateKey)
+      sinon
+        .stub(BlsWalletWrapper, 'getRandomBlsPrivateKey')
+        .resolves(privateKey)
 
       const account = await BlsAccount.createAccount({})
 
@@ -47,7 +49,9 @@ describe('BlsAccount', () => {
     it('should return a generated private key', async () => {
       const privateKey = '0x123'
 
-      sinon.stub(BlsWalletWrapper, 'getRandomBlsPrivateKey').resolves(privateKey)
+      sinon
+        .stub(BlsWalletWrapper, 'getRandomBlsPrivateKey')
+        .resolves(privateKey)
 
       const result = await BlsAccount.generatePrivateKey()
 
@@ -63,12 +67,12 @@ describe('BlsAccount', () => {
       const mockWallet: any = {
         address: '0x12345',
         sign: mockSignFunction,
-        Nonce: () => 0
+        Nonce: () => 0,
       }
       sinon.stub(BlsWalletWrapper, 'connect').resolves(mockWallet)
       const accountConfig = {
         privateKey: '0x123',
-        network: 'localhost'
+        network: 'localhost',
       }
       const account = await BlsAccount.createAccount(accountConfig)
 
@@ -77,27 +81,33 @@ describe('BlsAccount', () => {
       mockAggregator.add.resolves(mockResult)
 
       // Stub the getAggregator function to return the mockAggregator
-      sinon.stub(BlsAccount.prototype, 'getAggregator' as any).returns(mockAggregator as any)
+      sinon
+        .stub(BlsAccount.prototype, 'getAggregator' as any)
+        .returns(mockAggregator as any)
 
       const params = [
         {
           to: '0x12345',
           value: '0',
-          data: '0x'
-        }
+          data: '0x',
+        },
       ]
       const transaction = await account.sendTransaction(params)
 
       expect(transaction).to.be.instanceOf(BlsTransaction)
       expect(transaction.hash).to.equal(mockResult.hash)
-      expect(mockSignFunction.calledWith({
-        nonce: 0,
-        actions: [{
-          ethValue: params[0].value,
-          contractAddress: params[0].to,
-          encodedFunction: params[0].data
-        }]
-      })).to.equal(true)
+      expect(
+        mockSignFunction.calledWith({
+          nonce: 0,
+          actions: [
+            {
+              ethValue: params[0].value,
+              contractAddress: params[0].to,
+              encodedFunction: params[0].data,
+            },
+          ],
+        }),
+      ).to.equal(true)
     })
   })
 
@@ -108,7 +118,7 @@ describe('BlsAccount', () => {
       mockGetSetRecoveryHashBundle.returns(mockBundle)
       const mockWallet: any = {
         address: '0x12345',
-        getSetRecoveryHashBundle: mockGetSetRecoveryHashBundle
+        getSetRecoveryHashBundle: mockGetSetRecoveryHashBundle,
       }
       sinon.stub(BlsWalletWrapper, 'connect').resolves(mockWallet)
 
@@ -116,21 +126,31 @@ describe('BlsAccount', () => {
       const mockAggregator = sinon.createStubInstance(Aggregator)
       mockAggregator.add.resolves(mockResult)
       // Stub the getAggregator function to return the mockAggregator
-      sinon.stub(BlsAccount.prototype, 'getAggregator' as any).returns(mockAggregator as any)
+      sinon
+        .stub(BlsAccount.prototype, 'getAggregator' as any)
+        .returns(mockAggregator as any)
 
       const recoveryPhrase = 'some_recovery_phrase'
       const trustedAccountAddress = '0x12345'
       const accountConfig = {
         privateKey: '0x123',
-        network: 'localhost'
+        network: 'localhost',
       }
       const account = await BlsAccount.createAccount(accountConfig)
 
-      const transaction = await account.setTrustedAccount(recoveryPhrase, trustedAccountAddress)
+      const transaction = await account.setTrustedAccount(
+        recoveryPhrase,
+        trustedAccountAddress,
+      )
 
       expect(transaction).to.be.instanceOf(BlsTransaction)
       expect(transaction.hash).to.equal(mockResult.hash)
-      expect(mockGetSetRecoveryHashBundle.calledWith(recoveryPhrase, trustedAccountAddress)).to.equal(true)
+      expect(
+        mockGetSetRecoveryHashBundle.calledWith(
+          recoveryPhrase,
+          trustedAccountAddress,
+        ),
+      ).to.equal(true)
     })
   })
 
@@ -143,15 +163,19 @@ describe('BlsAccount', () => {
 
       const accountConfig = {
         privateKey,
-        network: 'localhost'
+        network: 'localhost',
       }
       const account = await BlsAccount.createAccount(accountConfig)
 
       const mockBalance = ethers.utils.parseEther('10')
-      const mockProvider = sinon.createStubInstance(ethers.providers.JsonRpcProvider)
+      const mockProvider = sinon.createStubInstance(
+        ethers.providers.JsonRpcProvider,
+      )
       mockProvider.getBalance.resolves(mockBalance)
       // Stub the getProvider function to return the mockProvider
-      sinon.stub(BlsAccount.prototype, 'getProvider' as any).resolves(mockProvider as any)
+      sinon
+        .stub(BlsAccount.prototype, 'getProvider' as any)
+        .resolves(mockProvider as any)
 
       const balance = await account.getBalance()
 

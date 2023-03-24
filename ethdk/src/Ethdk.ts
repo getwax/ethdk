@@ -13,11 +13,15 @@ interface AccountConfig {
  * @param privateKey Optional private key to use for the account
  * @returns An account of the specified type
  */
-export async function createAccount ({ accountType, privateKey, network }: AccountConfig): Promise<Account> {
+export async function createAccount({
+  accountType,
+  privateKey,
+  network,
+}: AccountConfig): Promise<Account> {
   if (accountType === BlsAccount.accountType) {
     return await BlsAccount.createAccount({
       privateKey,
-      network
+      network,
     })
   }
   throw new Error('Unsupported account type')
