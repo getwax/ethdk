@@ -1,20 +1,11 @@
 import { BlsWalletWrapper, Aggregator, type Bundle } from 'bls-wallet-clients'
 import { ethers } from 'ethers'
 import BlsTransaction from './BlsTransaction'
-import type Transaction from './interfaces/Transaction'
-import type Account from './interfaces/Account'
-import type SendTransactionParams from './interfaces/SendTransactionParams'
-import { type BlsNetwork } from './interfaces/Network'
-
-// TODO (ethdk #10) Initially we are just using the local network. This will be
-// replaced with a dynamic network selection in the future.
-const NETWORK: BlsNetwork = {
-  name: 'localhost',
-  chainId: 31337,
-  rpcUrl: 'http://localhost:8545',
-  aggregatorUrl: 'http://localhost:3000',
-  verificationGateway: '0x689A095B4507Bfa302eef8551F90fB322B3451c6'
-}
+import type Transaction from '../interfaces/Transaction'
+import type Account from '../interfaces/Account'
+import type SendTransactionParams from '../interfaces/SendTransactionParams'
+import { type BlsNetwork } from '../interfaces/Network'
+import { getNetwork } from './BlsNetworks'
 
 export default class BlsAccount implements Account {
   static accountType: string = 'bls'
@@ -22,23 +13,39 @@ export default class BlsAccount implements Account {
   address: string
   private readonly privateKey: string
   private readonly wallet: BlsWalletWrapper
+  private readonly networkConfig: BlsNetwork
 
-  private constructor (privateKey: string, wallet: BlsWalletWrapper) {
+  private constructor ({
+    privateKey,
+    wallet,
+    network
+  }: {
+    privateKey: string
+    wallet: BlsWalletWrapper
+    network: BlsNetwork
+  }) {
     this.privateKey = privateKey
     this.wallet = wallet
     this.address = wallet.address
+    this.networkConfig = network
   }
 
-  static async createAccount (privateKey?: string): Promise<BlsAccount> {
+  static async createAccount ({
+    privateKey,
+    network
+  }: {
+    privateKey?: string
+    network?: string
+  }): Promise<BlsAccount> {
     const pk = privateKey ?? await BlsWalletWrapper.getRandomBlsPrivateKey()
-
+    const networkConfig = getNetwork(network)
     const wallet = await BlsWalletWrapper.connect(
       pk,
-      NETWORK.verificationGateway,
-      new ethers.providers.JsonRpcProvider(NETWORK.rpcUrl)
+      networkConfig.verificationGateway,
+      new ethers.providers.JsonRpcProvider(networkConfig.rpcUrl)
     )
 
-    return new BlsAccount(pk, wallet)
+    return new BlsAccount({ privateKey: pk, wallet, network: networkConfig })
   }
 
   static async generatePrivateKey (): Promise<string> {
@@ -60,7 +67,7 @@ export default class BlsAccount implements Account {
     const nonce = await this.wallet.Nonce()
     const bundle = this.wallet.sign({ nonce, actions })
 
-    return await addBundleToAggregator(this.getAggregator(), bundle)
+    return await addBundleToAggregator(this.getAggregator(), bundle, this.networkConfig.name)
   }
 
   /**
@@ -76,7 +83,7 @@ export default class BlsAccount implements Account {
       trustedAccountAddress
     )
 
-    return await addBundleToAggregator(this.getAggregator(), bundle)
+    return await addBundleToAggregator(this.getAggregator(), bundle, this.networkConfig.name)
   }
 
   /**
@@ -91,20 +98,20 @@ export default class BlsAccount implements Account {
   }
 
   private async getProvider (): Promise<ethers.providers.JsonRpcProvider> {
-    return new ethers.providers.JsonRpcProvider(NETWORK.rpcUrl)
+    return new ethers.providers.JsonRpcProvider(this.networkConfig.rpcUrl)
   }
 
   private getAggregator (): Aggregator {
-    return new Aggregator(NETWORK.aggregatorUrl)
+    return new Aggregator(this.networkConfig.aggregatorUrl)
   }
 }
 
-async function addBundleToAggregator (agg: Aggregator, bundle: Bundle): Promise<Transaction> {
+async function addBundleToAggregator (agg: Aggregator, bundle: Bundle, network: string): Promise<Transaction> {
   const result = await agg.add(bundle)
 
   if ('failures' in result) {
     throw new Error(JSON.stringify(result))
   }
 
-  return new BlsTransaction(NETWORK, result.hash)
+  return new BlsTransaction({ network, bundleHash: result.hash })
 }
