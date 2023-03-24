@@ -11,13 +11,14 @@ How to use ethdk
 ### Accounts
 
 ```typescript
-import { createAccount, generatePrivateKey } from "ethdk";
-
-const privateKey = await generatePrivateKey('bls');
+import { createAccount } from "ethdk";
 
 // Private key param is optional. A random private key will
 // be generated if one is not provided.
-const account = createAccount('bls', privateKey); 
+const account = createAccount({
+  accountType: 'bls',
+  network: 'localhost'
+}); 
 
 const { address } = account;
 
@@ -34,6 +35,8 @@ account.setTrustedAccount(recoveryPhrase, trustedAccount);
 ### Transaction
 
 ```typescript
-const transactionHash = await account.sendTransaction(...);
+const transaction = await account.sendTransaction(...);
+
+const { hash } = transaction;
                                             
 ```
