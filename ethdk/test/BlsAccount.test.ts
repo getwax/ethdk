@@ -131,6 +131,51 @@ describe('BlsAccount', () => {
     })
   })
 
+  describe('resetAccountPrivateKey', () => {
+    it('should reset the account private key successfully', async () => {
+      const mockBundle = { some: 'bundle' }
+      const mockGetRecoverWalletBundle = sinon.stub().resolves(mockBundle)
+      const mockWallet: any = {
+        address: '0x12345',
+        getRecoverWalletBundle: mockGetRecoverWalletBundle,
+      }
+      sinon.stub(BlsWalletWrapper, 'connect').resolves(mockWallet)
+
+      const mockResult = { hash: '0x67890' }
+      const mockAggregator = sinon.createStubInstance(Aggregator)
+      mockAggregator.add.resolves(mockResult)
+
+      sinon
+        .stub(BlsAccount.prototype, 'getAggregator' as any)
+        .returns(mockAggregator)
+
+      const accountConfig = {
+        privateKey: '0x123',
+        network: 'localhost',
+      }
+      const account = await BlsAccount.createAccount(accountConfig)
+
+      const compromisedAccountAddress = '0x98765'
+      const recoveryPhrase = 'some_recovery_phrase'
+      const newPrivateKey = '0x456'
+      const transaction = await account.resetAccountPrivateKey(
+        compromisedAccountAddress,
+        recoveryPhrase,
+        newPrivateKey,
+      )
+
+      expect(transaction).to.be.instanceOf(BlsTransaction)
+      expect(transaction.hash).to.equal(mockResult.hash)
+      expect(
+        mockGetRecoverWalletBundle.calledWith(
+          compromisedAccountAddress,
+          newPrivateKey,
+          recoveryPhrase,
+        ),
+      ).to.equal(true)
+    })
+  })
+
   describe('getBalance', () => {
     it('should get the balance of an account successfully', async () => {
       const balance = ethers.utils.parseEther('1.23')
