@@ -102,11 +102,10 @@ export default class BlsAccount implements Account {
     recoveryPhrase: string,
     trustedAccountAddress: string,
   ): Promise<Transaction> {
-    const networkConfig = getNetwork('localhost')
     const wallet = await BlsWalletWrapper.connect(
       this.privateKey,
-      networkConfig.verificationGateway,
-      new ethers.providers.JsonRpcProvider(networkConfig.rpcUrl),
+      this.networkConfig.verificationGateway,
+      this.blsProvider,
     )
     const bundle = await wallet.getSetRecoveryHashBundle(
       recoveryPhrase,
@@ -134,16 +133,14 @@ export default class BlsAccount implements Account {
     recoveryPhrase: string,
     newPrivateKey: string,
   ): Promise<Transaction> {
-    const networkConfig = getNetwork('localhost')
-    const provider = new ethers.providers.JsonRpcProvider(networkConfig.rpcUrl)
     const wallet = await BlsWalletWrapper.connect(
       this.privateKey,
-      networkConfig.verificationGateway,
-      provider,
+      this.networkConfig.verificationGateway,
+      this.blsProvider,
     )
     const verificationGateway = VerificationGateway__factory.connect(
-      networkConfig.verificationGateway,
-      provider,
+      this.networkConfig.verificationGateway,
+      this.blsProvider,
     )
     const bundle = await wallet.getRecoverWalletBundle(
       compromisedAccountAddress,
