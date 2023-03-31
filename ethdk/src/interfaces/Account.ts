@@ -1,7 +1,10 @@
-import type SendTransactionParams from './SendTransactionParams'
+import { type Deferrable } from 'ethers/lib/utils'
+import { type ethers } from 'ethers'
 import type Transaction from './Transaction'
 
 export default interface Account {
   address: string
-  sendTransaction: (params: SendTransactionParams[]) => Promise<Transaction>
+  sendTransaction: (
+    transaction: Deferrable<ethers.providers.TransactionRequest>,
+  ) => Promise<Transaction>
 }
