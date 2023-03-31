@@ -55,6 +55,7 @@ export default class BlsAccount implements Account {
     const provider = new Experimental.BlsProvider(
       networkConfig.aggregatorUrl,
       networkConfig.verificationGateway,
+      networkConfig.aggregatorUtilities,
       networkConfig.rpcUrl,
       {
         name: networkConfig.name,
