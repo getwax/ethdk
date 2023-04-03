@@ -1,51 +1,76 @@
-import { BlsWalletWrapper, Aggregator, type Bundle } from 'bls-wallet-clients'
+import {
+  Experimental,
+  BlsWalletWrapper,
+  Aggregator,
+  VerificationGateway__factory,
+  type Bundle,
+} from 'bls-wallet-clients'
 import { ethers } from 'ethers'
+import { type Deferrable } from 'ethers/lib/utils'
 import BlsTransaction from './BlsTransaction'
 import type Transaction from '../interfaces/Transaction'
 import type Account from '../interfaces/Account'
-import type SendTransactionParams from '../interfaces/SendTransactionParams'
 import { type BlsNetwork } from '../interfaces/Network'
 import { getNetwork } from './BlsNetworks'
 
 export default class BlsAccount implements Account {
-  static accountType: string = 'bls'
+  accountType: string = 'bls'
 
   address: string
   private readonly privateKey: string
-  private readonly wallet: BlsWalletWrapper
   private readonly networkConfig: BlsNetwork
+  private readonly blsProvider: InstanceType<typeof Experimental.BlsProvider>
+  private readonly blsSigner: InstanceType<typeof Experimental.BlsSigner>
 
   private constructor({
+    address,
     privateKey,
-    wallet,
     network,
+    provider,
+    signer,
   }: {
+    address: string
     privateKey: string
-    wallet: BlsWalletWrapper
     network: BlsNetwork
+    provider: InstanceType<typeof Experimental.BlsProvider>
+    signer: InstanceType<typeof Experimental.BlsSigner>
   }) {
+    this.address = address
     this.privateKey = privateKey
-    this.wallet = wallet
-    this.address = wallet.address
     this.networkConfig = network
+    this.blsProvider = provider
+    this.blsSigner = signer
   }
 
   static async createAccount({
-    privateKey,
+    privateKey: pk,
     network,
   }: {
     privateKey?: string
     network?: string
   }): Promise<BlsAccount> {
-    const pk = privateKey ?? (await BlsWalletWrapper.getRandomBlsPrivateKey())
+    const privateKey = pk ?? (await BlsWalletWrapper.getRandomBlsPrivateKey())
     const networkConfig = getNetwork(network)
-    const wallet = await BlsWalletWrapper.connect(
-      pk,
-      networkConfig.verificationGateway,
-      new ethers.providers.JsonRpcProvider(networkConfig.rpcUrl),
-    )
 
-    return new BlsAccount({ privateKey: pk, wallet, network: networkConfig })
+    const provider = new Experimental.BlsProvider(
+      networkConfig.aggregatorUrl,
+      networkConfig.verificationGateway,
+      networkConfig.aggregatorUtilities,
+      networkConfig.rpcUrl,
+      {
+        name: networkConfig.name,
+        chainId: networkConfig.chainId,
+      },
+    )
+    const signer = provider.getSigner(privateKey)
+
+    return new BlsAccount({
+      privateKey,
+      network: networkConfig,
+      address: await signer.getAddress(),
+      provider,
+      signer,
+    })
   }
 
   static async generatePrivateKey(): Promise<string> {
@@ -57,21 +82,14 @@ export default class BlsAccount implements Account {
    * @param params Array of transactions
    * @returns Transaction hash of the transaction that was sent to the aggregator
    */
-  async sendTransaction(params: SendTransactionParams[]): Promise<Transaction> {
-    const actions = params.map((tx) => ({
-      ethValue: tx.value ?? '0',
-      contractAddress: tx.to,
-      encodedFunction: tx.data ?? '0x',
-    }))
-
-    const nonce = await this.wallet.Nonce()
-    const bundle = this.wallet.sign({ nonce, actions })
-
-    return await addBundleToAggregator(
-      this.getAggregator(),
-      bundle,
-      this.networkConfig.name,
-    )
+  async sendTransaction(
+    transaction: Deferrable<ethers.providers.TransactionRequest>,
+  ): Promise<Transaction> {
+    const response = await this.blsSigner.sendTransaction(transaction)
+    return new BlsTransaction({
+      network: this.networkConfig.name,
+      bundleHash: response.hash,
+    })
   }
 
   /**
@@ -85,9 +103,51 @@ export default class BlsAccount implements Account {
     recoveryPhrase: string,
     trustedAccountAddress: string,
   ): Promise<Transaction> {
-    const bundle = await this.wallet.getSetRecoveryHashBundle(
+    const wallet = await BlsWalletWrapper.connect(
+      this.privateKey,
+      this.networkConfig.verificationGateway,
+      this.blsProvider,
+    )
+    const bundle = await wallet.getSetRecoveryHashBundle(
       recoveryPhrase,
       trustedAccountAddress,
+    )
+
+    return await addBundleToAggregator(
+      this.getAggregator(),
+      bundle,
+      this.networkConfig.name,
+    )
+  }
+
+  /**
+   * Recovers a compromised BLS wallet by assigning it a new private key. This function
+   * must be called from the trusted account that was previously set by the compromised wallet.
+   *
+   * @param compromisedAccountAddress The address of the compromised BLS wallet.
+   * @param recoveryPhrase The recovery phrase associated with the compromised wallet.
+   * @param newPrivateKey The new private key to be assigned to the compromised wallet.
+   * @returns Transaction hash of the transaction that was sent to the aggregator
+   */
+  async resetAccountPrivateKey(
+    compromisedAccountAddress: string,
+    recoveryPhrase: string,
+    newPrivateKey: string,
+  ): Promise<Transaction> {
+    const wallet = await BlsWalletWrapper.connect(
+      this.privateKey,
+      this.networkConfig.verificationGateway,
+      this.blsProvider,
+    )
+    const verificationGateway = VerificationGateway__factory.connect(
+      this.networkConfig.verificationGateway,
+      this.blsProvider,
+    )
+    const bundle = await wallet.getRecoverWalletBundle(
+      compromisedAccountAddress,
+      newPrivateKey,
+      recoveryPhrase,
+      verificationGateway,
     )
 
     return await addBundleToAggregator(
@@ -102,14 +162,8 @@ export default class BlsAccount implements Account {
    * @returns The balance of this account formated in ether (instead of wei)
    */
   async getBalance(): Promise<string> {
-    const provider = await this.getProvider()
-    const balance = await provider.getBalance(this.address)
-
+    const balance = await this.blsProvider.getBalance(this.address)
     return ethers.utils.formatEther(balance)
-  }
-
-  private async getProvider(): Promise<ethers.providers.JsonRpcProvider> {
-    return new ethers.providers.JsonRpcProvider(this.networkConfig.rpcUrl)
   }
 
   private getAggregator(): Aggregator {

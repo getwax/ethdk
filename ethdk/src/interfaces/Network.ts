@@ -7,4 +7,5 @@ export interface Network {
 export interface BlsNetwork extends Network {
   aggregatorUrl: string
   verificationGateway: string
+  aggregatorUtilities: string
 }

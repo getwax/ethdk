@@ -18,7 +18,7 @@
     "lint": "eslint src/**/*.ts"
   },
   "dependencies": {
-    "bls-wallet-clients": "0.8.2-77f1638",
+    "bls-wallet-clients": "0.8.2-1452ef5",
     "ethers": "^5.7.2"
   },
   "devDependencies": {
