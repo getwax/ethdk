@@ -127,7 +127,7 @@ export default class BlsAccount implements Account {
    * @param compromisedAccountAddress The address of the compromised BLS wallet.
    * @param recoveryPhrase The recovery phrase associated with the compromised wallet.
    * @param newPrivateKey The new private key to be assigned to the compromised wallet.
-   * @returns
+   * @returns Transaction hash of the transaction that was sent to the aggregator
    */
   async resetAccountPrivateKey(
     compromisedAccountAddress: string,
