@@ -14,7 +14,7 @@ import { type BlsNetwork } from '../interfaces/Network'
 import { getNetwork } from './BlsNetworks'
 
 export default class BlsAccount implements Account {
-  static accountType: string = 'bls'
+  accountType: string = 'bls'
 
   address: string
   private readonly privateKey: string

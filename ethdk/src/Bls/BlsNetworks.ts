@@ -2,7 +2,7 @@ import { type BlsNetwork } from '../interfaces/Network'
 
 const localhost: BlsNetwork = {
   name: 'localhost',
-  chainId: 31337,
+  chainId: 1337,
   rpcUrl: 'http://localhost:8545',
   aggregatorUrl: 'http://localhost:3000',
   aggregatorUtilities: '0x76cE3c1F2E6d87c355560fCbd28ccAcAe03f95F6',
