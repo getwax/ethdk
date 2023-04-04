@@ -11,11 +11,12 @@ export const localhost: BlsNetwork = {
 }
 
 export function getNetwork(network?: Network): BlsNetwork {
-  if (network === undefined) {
+  if (network === undefined || network === null) {
     // Return default network
     return localhost
   }
-  if (network?.type === 'bls') {
+
+  if (network.type === 'bls') {
     return network as BlsNetwork
   }
   throw new Error('Unsupported network')
