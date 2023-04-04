@@ -1,9 +1,10 @@
+import { type Network } from './interfaces/Network'
 import BlsAccount from './Bls/BlsAccount'
 
 interface AccountConfig {
   accountType: 'bls' | 'eoa'
   privateKey?: string
-  network?: string
+  network?: Network
 }
 
 interface AccountTypeMap {

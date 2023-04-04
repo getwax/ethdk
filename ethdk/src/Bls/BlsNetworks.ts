@@ -1,6 +1,7 @@
-import { type BlsNetwork } from '../interfaces/Network'
+import { type Network, type BlsNetwork } from '../interfaces/Network'
 
-const localhost: BlsNetwork = {
+export const localhost: BlsNetwork = {
+  type: 'bls',
   name: 'localhost',
   chainId: 1337,
   rpcUrl: 'http://localhost:8545',
@@ -9,13 +10,14 @@ const localhost: BlsNetwork = {
   verificationGateway: '0x689A095B4507Bfa302eef8551F90fB322B3451c6',
 }
 
-const NETWORKS = {
-  localhost,
-}
+export function getNetwork(network?: Network): BlsNetwork {
+  if (network === undefined || network === null) {
+    // Return default network
+    return localhost
+  }
 
-export function getNetwork(name?: string): BlsNetwork {
-  if (name === 'localhost' || name === undefined) {
-    return NETWORKS.localhost
+  if (network.type === 'bls') {
+    return network as BlsNetwork
   }
   throw new Error('Unsupported network')
 }

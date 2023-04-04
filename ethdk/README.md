@@ -13,13 +13,13 @@ How to use ethdk
 ### Accounts
 
 ```typescript
-import { createAccount } from 'ethdk'
+import { networks, createAccount } from 'ethdk'
 
 // Private key param is optional. A random private key will
 // be generated if one is not provided.
-const account = createAccount({
+const account = await createAccount({
   accountType: 'bls',
-  network: 'localhost',
+  network: networks.BLS_NETWORKS.localhost,
 })
 
 const { address } = account
