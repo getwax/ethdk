@@ -2,6 +2,7 @@ import { expect } from 'chai'
 import { describe, it, afterEach } from 'mocha'
 import BlsAccount from '../src/Bls/BlsAccount'
 import BlsTransaction from '../src/Bls/BlsTransaction'
+import { BLS_NETWORKS } from '../src/Networks'
 import sinon from 'sinon'
 
 import { ethers } from 'ethers'
@@ -23,7 +24,7 @@ describe('BlsAccount', () => {
 
       const accountConfig = {
         privateKey,
-        network: 'localhost',
+        network: BLS_NETWORKS.localhost,
       }
       const account = await BlsAccount.createAccount(accountConfig)
 
@@ -76,7 +77,7 @@ describe('BlsAccount', () => {
 
     const accountConfig = {
       privateKey: '0x123',
-      network: 'localhost',
+      network: BLS_NETWORKS.localhost,
     }
     const account = await BlsAccount.createAccount(accountConfig)
 
@@ -109,7 +110,7 @@ describe('BlsAccount', () => {
         .returns(mockAggregator)
       const accountConfig = {
         privateKey: '0x123',
-        network: 'localhost',
+        network: BLS_NETWORKS.localhost,
       }
       const account = await BlsAccount.createAccount(accountConfig)
 
@@ -151,7 +152,7 @@ describe('BlsAccount', () => {
 
       const accountConfig = {
         privateKey: '0x123',
-        network: 'localhost',
+        network: BLS_NETWORKS.localhost,
       }
       const account = await BlsAccount.createAccount(accountConfig)
 
@@ -190,7 +191,7 @@ describe('BlsAccount', () => {
         .resolves(mockAddress)
       const accountConfig = {
         privateKey: '0x123',
-        network: 'localhost',
+        network: BLS_NETWORKS.localhost,
       }
       const account = await BlsAccount.createAccount(accountConfig)
       const result = await account.getBalance()

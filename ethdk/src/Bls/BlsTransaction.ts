@@ -4,7 +4,7 @@ import {
   type BundleReceiptError,
 } from 'bls-wallet-clients/dist/src/Aggregator'
 import type Transaction from '../interfaces/Transaction'
-import type { BlsNetwork } from '../interfaces/Network'
+import { type BlsNetwork, type Network } from '../interfaces/Network'
 import { getNetwork } from './BlsNetworks'
 
 type ReceiptResponse = BundleReceipt | BundleReceiptError
@@ -17,7 +17,7 @@ export default class BlsTransaction implements Transaction {
     network,
   }: {
     bundleHash: string
-    network: string
+    network: Network
   }) {
     this.network = getNetwork(network)
     this.hash = bundleHash

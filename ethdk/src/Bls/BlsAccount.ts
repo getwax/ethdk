@@ -10,7 +10,7 @@ import { type Deferrable } from 'ethers/lib/utils'
 import BlsTransaction from './BlsTransaction'
 import type Transaction from '../interfaces/Transaction'
 import type Account from '../interfaces/Account'
-import { type BlsNetwork } from '../interfaces/Network'
+import { type BlsNetwork, type Network } from '../interfaces/Network'
 import { getNetwork } from './BlsNetworks'
 
 export default class BlsAccount implements Account {
@@ -47,7 +47,7 @@ export default class BlsAccount implements Account {
     network,
   }: {
     privateKey?: string
-    network?: string
+    network?: Network
   }): Promise<BlsAccount> {
     const privateKey = pk ?? (await BlsWalletWrapper.getRandomBlsPrivateKey())
     const networkConfig = getNetwork(network)
@@ -87,7 +87,7 @@ export default class BlsAccount implements Account {
   ): Promise<Transaction> {
     const response = await this.blsSigner.sendTransaction(transaction)
     return new BlsTransaction({
-      network: this.networkConfig.name,
+      network: this.networkConfig,
       bundleHash: response.hash,
     })
   }
@@ -116,7 +116,7 @@ export default class BlsAccount implements Account {
     return await addBundleToAggregator(
       this.getAggregator(),
       bundle,
-      this.networkConfig.name,
+      this.networkConfig,
     )
   }
 
@@ -153,7 +153,7 @@ export default class BlsAccount implements Account {
     return await addBundleToAggregator(
       this.getAggregator(),
       bundle,
-      this.networkConfig.name,
+      this.networkConfig,
     )
   }
 
@@ -174,7 +174,7 @@ export default class BlsAccount implements Account {
 async function addBundleToAggregator(
   agg: Aggregator,
   bundle: Bundle,
-  network: string,
+  network: BlsNetwork,
 ): Promise<Transaction> {
   const result = await agg.add(bundle)
 
