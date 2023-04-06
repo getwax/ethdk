@@ -1,10 +1,10 @@
 import { expect } from 'chai'
 import { ethers } from 'ethers'
 import sinon from 'sinon'
-import EoaTransaction from '../../src/Eoa/EoaTransaction'
+import ExternallyOwnedAccountTransaction from '../../src/ExternallyOwnedAccount/ExternallyOwnedAccountTransaction'
 import { EOA_NETWORKS } from '../../src/Networks'
 
-describe('EoaTransaction', () => {
+describe('ExternallyOwnedAccountTransaction', () => {
   afterEach(() => {
     sinon.restore()
   })
@@ -24,7 +24,7 @@ describe('EoaTransaction', () => {
 
       getTransactionReceiptStub.resolves(mockReceipt)
 
-      const transaction = new EoaTransaction({
+      const transaction = new ExternallyOwnedAccountTransaction({
         network: EOA_NETWORKS.localhost,
         hash,
       })

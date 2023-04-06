@@ -1,13 +1,16 @@
 import { ethers } from 'ethers'
-import { type EoaNetwork, type Network } from '../interfaces/Network'
+import {
+  type ExternallyOwnedAccountNetwork,
+  type Network,
+} from '../interfaces/Network'
 import type Transaction from '../interfaces/Transaction'
-import { getNetwork } from './EoaNetworks'
+import { getNetwork } from './ExternallyOwnedAccountNetworks'
 
 type ReceiptResponse = ethers.providers.TransactionReceipt
 
-export default class EoaTransaction implements Transaction {
+export default class ExternallyOwnedAccountTransaction implements Transaction {
   hash: string
-  network: EoaNetwork
+  network: ExternallyOwnedAccountNetwork
 
   constructor({ hash, network }: { hash: string; network: Network }) {
     this.network = getNetwork(network)

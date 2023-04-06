@@ -1,8 +1,8 @@
 import { createAccount } from './Ethdk'
 import BlsAccount from './Bls/BlsAccount'
 import BlsTransaction from './Bls/BlsTransaction'
-import ExternallyOwnedAccount from './Eoa/ExternallyOwnedAccount'
-import EoaTransaction from './Eoa/EoaTransaction'
+import ExternallyOwnedAccount from './ExternallyOwnedAccount/ExternallyOwnedAccount'
+import ExternallyOwnedAccountTransaction from './ExternallyOwnedAccount/ExternallyOwnedAccountTransaction'
 import * as networks from './Networks'
 
 export {
@@ -10,6 +10,6 @@ export {
   BlsAccount,
   BlsTransaction,
   ExternallyOwnedAccount,
-  EoaTransaction,
+  ExternallyOwnedAccountTransaction,
   networks,
 }

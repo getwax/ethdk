@@ -1,10 +1,13 @@
 import { ethers, Wallet } from 'ethers'
 import { type Deferrable } from 'ethers/lib/utils'
 import type Account from '../interfaces/Account'
-import { type EoaNetwork, type Network } from '../interfaces/Network'
+import {
+  type ExternallyOwnedAccountNetwork,
+  type Network,
+} from '../interfaces/Network'
 import type Transaction from '../interfaces/Transaction'
-import { getNetwork } from './EoaNetworks'
-import EoaTransaction from './EoaTransaction'
+import { getNetwork } from './ExternallyOwnedAccountNetworks'
+import ExternallyOwnedAccountTransaction from './ExternallyOwnedAccountTransaction'
 
 export default class ExternallyOwnedAccount implements Account {
   accountType: string = 'eoa'
@@ -12,7 +15,7 @@ export default class ExternallyOwnedAccount implements Account {
   address: string
   private readonly privateKey: string
   private readonly recoveryPhrase: string
-  private readonly networkConfig: EoaNetwork
+  private readonly networkConfig: ExternallyOwnedAccountNetwork
   private readonly provider: ethers.providers.JsonRpcProvider
   private readonly signer: Wallet
 
@@ -27,7 +30,7 @@ export default class ExternallyOwnedAccount implements Account {
     address: string
     privateKey: string
     recoveryPhrase: string
-    network: EoaNetwork
+    network: ExternallyOwnedAccountNetwork
     provider: ethers.providers.JsonRpcProvider
     signer: Wallet
   }) {
@@ -80,7 +83,7 @@ export default class ExternallyOwnedAccount implements Account {
     transaction: Deferrable<ethers.providers.TransactionRequest>,
   ): Promise<Transaction> {
     const response = await this.signer.sendTransaction(transaction)
-    return new EoaTransaction({
+    return new ExternallyOwnedAccountTransaction({
       network: this.networkConfig,
       hash: response.hash,
     })

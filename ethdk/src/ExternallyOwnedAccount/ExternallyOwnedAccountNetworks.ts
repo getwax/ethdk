@@ -1,6 +1,9 @@
-import { type Network, type EoaNetwork } from '../interfaces/Network'
+import {
+  type Network,
+  type ExternallyOwnedAccountNetwork,
+} from '../interfaces/Network'
 
-export const localhost: EoaNetwork = {
+export const localhost: ExternallyOwnedAccountNetwork = {
   type: 'eoa',
   name: 'localhost',
   chainId: 1337,
@@ -9,13 +12,13 @@ export const localhost: EoaNetwork = {
 
 const defaultNetwork = localhost
 
-export function getNetwork(network?: Network): EoaNetwork {
+export function getNetwork(network?: Network): ExternallyOwnedAccountNetwork {
   if (network === undefined || network === null) {
     return defaultNetwork
   }
 
   if (network.type === 'eoa') {
-    return network as EoaNetwork
+    return network as ExternallyOwnedAccountNetwork
   }
   throw new Error('Unsupported network')
 }

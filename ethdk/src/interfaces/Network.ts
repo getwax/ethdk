@@ -12,6 +12,6 @@ export interface BlsNetwork extends Network {
   aggregatorUtilities: string
 }
 
-export interface EoaNetwork extends Network {
+export interface ExternallyOwnedAccountNetwork extends Network {
   type: 'eoa'
 }

@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import sinon from 'sinon'
 import { EOA_NETWORKS } from '../../src/Networks'
-import { getNetwork } from '../../src/Eoa/EoaNetworks'
+import { getNetwork } from '../../src/ExternallyOwnedAccount/ExternallyOwnedAccountNetworks'
 
 describe('getNetwork', () => {
   afterEach(() => {
@@ -30,7 +30,7 @@ describe('getNetwork', () => {
     expect(resultNetwork).to.deep.equal(expectedNetwork)
   })
 
-  it('should return the EoaNetwork when network type is eoa', () => {
+  it('should return the ExternallyOwnedAccountNetwork when network type is eoa', () => {
     // Arrange
     const expectedNetwork = {
       type: 'eoa',

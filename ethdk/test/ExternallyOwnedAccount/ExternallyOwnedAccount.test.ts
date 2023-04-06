@@ -2,10 +2,10 @@ import { expect } from 'chai'
 import { ethers, Wallet } from 'ethers'
 import { describe, it, afterEach } from 'mocha'
 import sinon from 'sinon'
-import ExternallyOwnedAccount from '../../src/Eoa/ExternallyOwnedAccount'
-import EoaTransaction from '../../src/Eoa/EoaTransaction'
+import ExternallyOwnedAccount from '../../src/ExternallyOwnedAccount/ExternallyOwnedAccount'
+import ExternallyOwnedAccountTransaction from '../../src/ExternallyOwnedAccount/ExternallyOwnedAccountTransaction'
 import { EOA_NETWORKS } from '../../src/Networks'
-import * as networkModule from '../../src/Eoa/EoaNetworks'
+import * as networkModule from '../../src/ExternallyOwnedAccount/ExternallyOwnedAccountNetworks'
 
 describe('ExternallyOwnedAccount', () => {
   afterEach(() => {
@@ -128,7 +128,7 @@ describe('ExternallyOwnedAccount', () => {
       const transaction = await account.sendTransaction(transactionParams)
 
       // Assert
-      expect(transaction).to.be.instanceOf(EoaTransaction)
+      expect(transaction).to.be.instanceOf(ExternallyOwnedAccountTransaction)
       expect(transaction.hash).to.equal(mockTransactionResponse.hash)
     })
   })
