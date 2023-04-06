@@ -1,6 +1,6 @@
 import { type Network } from './interfaces/Network'
 import BlsAccount from './Bls/BlsAccount'
-import ExternallyOwnedAccount from './Eoa/ExternallyOwnedAccount'
+import ExternallyOwnedAccount from './EOA/ExternallyOwnedAccount'
 
 interface AccountConfig {
   accountType: 'bls' | 'eoa'

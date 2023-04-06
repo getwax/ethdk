@@ -2,10 +2,10 @@ import { expect } from 'chai'
 import { ethers, Wallet } from 'ethers'
 import { describe, it, afterEach } from 'mocha'
 import sinon from 'sinon'
-import ExternallyOwnedAccount from '../../src/Eoa/ExternallyOwnedAccount'
-import EoaTransaction from '../../src/Eoa/EoaTransaction'
+import ExternallyOwnedAccount from '../../src/EOA/ExternallyOwnedAccount'
+import EoaTransaction from '../../src/EOA/EoaTransaction'
 import { EOA_NETWORKS } from '../../src/Networks'
-import * as networkModule from '../../src/Eoa/EoaNetworks'
+import * as networkModule from '../../src/EOA/EoaNetworks'
 
 describe('ExternallyOwnedAccount', () => {
   afterEach(() => {
