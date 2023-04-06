@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import sinon from 'sinon'
 import { EOA_NETWORKS } from '../../src/Networks'
-import { getNetwork } from '../../src/EOA/EoaNetworks'
+import { getNetwork } from '../../src/Eoa/EoaNetworks'
 
 describe('getNetwork', () => {
   afterEach(() => {

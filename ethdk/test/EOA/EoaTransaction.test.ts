@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import { ethers } from 'ethers'
 import sinon from 'sinon'
-import EoaTransaction from '../../src/EOA/EoaTransaction'
+import EoaTransaction from '../../src/Eoa/EoaTransaction'
 import { EOA_NETWORKS } from '../../src/Networks'
 
 describe('EoaTransaction', () => {
