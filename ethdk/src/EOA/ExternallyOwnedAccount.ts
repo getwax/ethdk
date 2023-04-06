@@ -6,7 +6,7 @@ import type Transaction from '../interfaces/Transaction'
 import { getNetwork } from './EoaNetworks'
 import EoaTransaction from './EoaTransaction'
 
-export default class EoaAccount implements Account {
+export default class ExternallyOwnedAccount implements Account {
   accountType: string = 'eoa'
 
   address: string
@@ -45,7 +45,7 @@ export default class EoaAccount implements Account {
   }: {
     privateKey?: string
     network?: Network
-  } = {}): Promise<EoaAccount> {
+  } = {}): Promise<ExternallyOwnedAccount> {
     const signer = Wallet.createRandom(privateKey)
 
     const networkConfig = getNetwork(network)
@@ -58,7 +58,7 @@ export default class EoaAccount implements Account {
       },
     )
 
-    return new EoaAccount({
+    return new ExternallyOwnedAccount({
       address: signer.address,
       privateKey: signer.privateKey,
       recoveryPhrase: signer.mnemonic.phrase,

@@ -2,12 +2,12 @@ import { expect } from 'chai'
 import { ethers, Wallet } from 'ethers'
 import { describe, it, afterEach } from 'mocha'
 import sinon from 'sinon'
-import EoaAccount from '../../src/Eoa/EoaAccount'
+import ExternallyOwnedAccount from '../../src/Eoa/ExternallyOwnedAccount'
 import EoaTransaction from '../../src/Eoa/EoaTransaction'
 import { EOA_NETWORKS } from '../../src/Networks'
 import * as networkModule from '../../src/Eoa/EoaNetworks'
 
-describe('EoaAccount', () => {
+describe('ExternallyOwnedAccount', () => {
   afterEach(() => {
     sinon.restore()
   })
@@ -30,10 +30,10 @@ describe('EoaAccount', () => {
       }
 
       // Act
-      const account = await EoaAccount.createAccount(accountConfig)
+      const account = await ExternallyOwnedAccount.createAccount(accountConfig)
 
       // Assert
-      expect(account).to.be.instanceOf(EoaAccount)
+      expect(account).to.be.instanceOf(ExternallyOwnedAccount)
       expect(account.address).to.equal(expectedWallet.address)
       expect(walletStub.calledOnceWith(privateKey)).to.equal(true)
       expect(getNetworkSpy.calledOnceWith(EOA_NETWORKS.localhost)).to.equal(
@@ -52,10 +52,10 @@ describe('EoaAccount', () => {
       const getNetworkSpy = sinon.spy(networkModule, 'getNetwork')
 
       // Act
-      const account = await EoaAccount.createAccount()
+      const account = await ExternallyOwnedAccount.createAccount()
 
       // Assert
-      expect(account).to.be.instanceOf(EoaAccount)
+      expect(account).to.be.instanceOf(ExternallyOwnedAccount)
       expect(account.address).to.equal(expectedWallet.address)
       expect(walletStub.calledOnceWith(undefined)).to.equal(true)
       expect(getNetworkSpy.calledOnceWith(undefined)).to.equal(true)
@@ -69,7 +69,7 @@ describe('EoaAccount', () => {
       sinon.stub(Wallet, 'createRandom').returns(expectedWallet)
 
       // Act
-      const result = EoaAccount.generatePrivateKey()
+      const result = ExternallyOwnedAccount.generatePrivateKey()
 
       // Assert
       expect(result).to.equal(expectedWallet.privateKey)
@@ -82,7 +82,9 @@ describe('EoaAccount', () => {
       const wallet = Wallet.createRandom()
 
       // Act
-      const result = EoaAccount.recoverAccount(wallet.mnemonic.phrase)
+      const result = ExternallyOwnedAccount.recoverAccount(
+        wallet.mnemonic.phrase,
+      )
 
       // Assert
       expect(result.privateKey).to.equal(wallet.privateKey)
@@ -95,7 +97,9 @@ describe('EoaAccount', () => {
       const imposterWallet = Wallet.createRandom()
 
       // Act
-      const result = EoaAccount.recoverAccount(imposterWallet.mnemonic.phrase)
+      const result = ExternallyOwnedAccount.recoverAccount(
+        imposterWallet.mnemonic.phrase,
+      )
 
       // Assert
       expect(result.privateKey).to.not.equal(wallet.privateKey)
@@ -118,7 +122,7 @@ describe('EoaAccount', () => {
         data: '0x',
       }
 
-      const account = await EoaAccount.createAccount()
+      const account = await ExternallyOwnedAccount.createAccount()
 
       // Act
       const transaction = await account.sendTransaction(transactionParams)
@@ -139,7 +143,7 @@ describe('EoaAccount', () => {
       )
       getBalanceStub.resolves(balance)
 
-      const account = await EoaAccount.createAccount()
+      const account = await ExternallyOwnedAccount.createAccount()
 
       // Act
       const result = await account.getBalance()
