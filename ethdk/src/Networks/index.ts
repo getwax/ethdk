@@ -1,5 +1,5 @@
 import { localhost as blsLocalhost } from '../Bls/BlsNetworks'
-import { localhost as eoaLocalhost } from '../EOA/EoaNetworks'
+import { localhost as eoaLocalhost } from '../Eoa/EoaNetworks'
 
 export const BLS_NETWORKS = {
   localhost: blsLocalhost,
