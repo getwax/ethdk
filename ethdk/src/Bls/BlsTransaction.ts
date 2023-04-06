@@ -8,6 +8,7 @@ import { type BlsNetwork, type Network } from '../interfaces/Network'
 import { getNetwork } from './BlsNetworks'
 
 type ReceiptResponse = BundleReceipt | BundleReceiptError
+
 export default class BlsTransaction implements Transaction {
   hash: string
   network: BlsNetwork

@@ -11,3 +11,7 @@ export interface BlsNetwork extends Network {
   verificationGateway: string
   aggregatorUtilities: string
 }
+
+export interface EoaNetwork extends Network {
+  type: 'eoa'
+}
