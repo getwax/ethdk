@@ -1,6 +1,6 @@
 import { type Network } from './interfaces/Network'
 import BlsAccount from './Bls/BlsAccount'
-import type ExternallyOwnedAccount from './EOA/ExternallyOwnedAccount'
+import ExternallyOwnedAccount from './EOA/ExternallyOwnedAccount'
 
 interface AccountConfig {
   accountType: 'bls' | 'eoa'
@@ -33,5 +33,14 @@ export async function createAccount<T extends keyof AccountTypeMap>({
     })
     return account as AccountTypeToReturnType<T>
   }
+
+  if (accountType === 'eoa') {
+    const account = await ExternallyOwnedAccount.createAccount({
+      privateKey,
+      network,
+    })
+    return account as AccountTypeToReturnType<T>
+  }
+
   throw new Error('Unsupported account type')
 }

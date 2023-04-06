@@ -1,15 +1,10 @@
 import { ethers, Wallet } from 'ethers'
 import { type Deferrable } from 'ethers/lib/utils'
 import type Account from '../interfaces/Account'
-import { type EoaNetwork } from '../interfaces/Network'
+import { type EoaNetwork, type Network } from '../interfaces/Network'
 import type Transaction from '../interfaces/Transaction'
 import { getNetwork } from './EoaNetworks'
 import EoaTransaction from './EoaTransaction'
-
-interface CreateAccountConfig {
-  privateKey?: string
-  network?: EoaNetwork
-}
 
 export default class ExternallyOwnedAccount implements Account {
   accountType: string = 'eoa'
@@ -44,12 +39,16 @@ export default class ExternallyOwnedAccount implements Account {
     this.signer = signer
   }
 
-  static async createAccount(
-    createAccountConfig?: CreateAccountConfig,
-  ): Promise<ExternallyOwnedAccount> {
-    const signer = Wallet.createRandom(createAccountConfig?.privateKey)
+  static async createAccount({
+    privateKey,
+    network,
+  }: {
+    privateKey?: string
+    network?: Network
+  } = {}): Promise<ExternallyOwnedAccount> {
+    const signer = Wallet.createRandom(privateKey)
 
-    const networkConfig = getNetwork(createAccountConfig?.network)
+    const networkConfig = getNetwork(network)
 
     const provider = new ethers.providers.JsonRpcProvider(
       networkConfig.rpcUrl,
