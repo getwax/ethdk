@@ -8,13 +8,15 @@ import {
 import type Transaction from '../interfaces/Transaction'
 import { getNetwork } from './ExternallyOwnedAccountNetworks'
 import ExternallyOwnedAccountTransaction from './ExternallyOwnedAccountTransaction'
+import isNullOrUndefined from '../utils/isNullOrUndefined'
+import { type PrivateKey, type SeedPhrase } from '../types/brands'
 
 export default class ExternallyOwnedAccount implements Account {
   accountType: string = 'eoa'
 
   address: string
   private readonly privateKey: string
-  private readonly recoveryPhrase: string
+  private readonly seedPhrase: string
   private readonly networkConfig: ExternallyOwnedAccountNetwork
   private readonly provider: ethers.providers.JsonRpcProvider
   private readonly signer: Wallet
@@ -22,35 +24,33 @@ export default class ExternallyOwnedAccount implements Account {
   private constructor({
     address,
     privateKey,
-    recoveryPhrase,
+    seedPhrase,
     network,
     provider,
     signer,
   }: {
     address: string
     privateKey: string
-    recoveryPhrase: string
+    seedPhrase: string
     network: ExternallyOwnedAccountNetwork
     provider: ethers.providers.JsonRpcProvider
     signer: Wallet
   }) {
     this.address = address
     this.privateKey = privateKey
-    this.recoveryPhrase = recoveryPhrase
+    this.seedPhrase = seedPhrase
     this.networkConfig = network
     this.provider = provider
     this.signer = signer
   }
 
   static async createAccount({
-    privateKey,
+    privateKeyOrSeedPhrase,
     network,
   }: {
-    privateKey?: string
+    privateKeyOrSeedPhrase?: PrivateKey | SeedPhrase
     network?: Network
   } = {}): Promise<ExternallyOwnedAccount> {
-    const signer = Wallet.createRandom(privateKey)
-
     const networkConfig = getNetwork(network)
 
     const provider = new ethers.providers.JsonRpcProvider(
@@ -61,10 +61,69 @@ export default class ExternallyOwnedAccount implements Account {
       },
     )
 
+    if (this.isPrivateKey(privateKeyOrSeedPhrase)) {
+      return await this.createAccountFromPrivateKey({
+        privateKey: privateKeyOrSeedPhrase,
+        networkConfig,
+        provider,
+      })
+    }
+    if (this.isSeedPhrase(privateKeyOrSeedPhrase)) {
+      return await this.createAccountFromSeedPhrase({
+        seedPhrase: privateKeyOrSeedPhrase,
+        networkConfig,
+        provider,
+      })
+    }
+
+    const signer = Wallet.createRandom()
+
     return new ExternallyOwnedAccount({
       address: signer.address,
       privateKey: signer.privateKey,
-      recoveryPhrase: signer.mnemonic.phrase,
+      seedPhrase: signer.mnemonic.phrase,
+      network: networkConfig,
+      provider,
+      signer,
+    })
+  }
+
+  static async createAccountFromPrivateKey({
+    privateKey,
+    networkConfig,
+    provider,
+  }: {
+    privateKey: PrivateKey
+    networkConfig: ExternallyOwnedAccountNetwork
+    provider: ethers.providers.JsonRpcProvider
+  }): Promise<ExternallyOwnedAccount> {
+    const signer = Wallet.createRandom(privateKey)
+
+    return new ExternallyOwnedAccount({
+      address: signer.address,
+      privateKey: signer.privateKey,
+      seedPhrase: signer.mnemonic.phrase,
+      network: networkConfig,
+      provider,
+      signer,
+    })
+  }
+
+  static async createAccountFromSeedPhrase({
+    seedPhrase,
+    networkConfig,
+    provider,
+  }: {
+    seedPhrase: SeedPhrase
+    networkConfig: ExternallyOwnedAccountNetwork
+    provider: ethers.providers.JsonRpcProvider
+  }): Promise<ExternallyOwnedAccount> {
+    const signer = Wallet.fromMnemonic(seedPhrase)
+
+    return new ExternallyOwnedAccount({
+      address: signer.address,
+      privateKey: signer.privateKey,
+      seedPhrase: signer.mnemonic.phrase,
       network: networkConfig,
       provider,
       signer,
@@ -73,10 +132,6 @@ export default class ExternallyOwnedAccount implements Account {
 
   static generatePrivateKey(): string {
     return Wallet.createRandom().privateKey
-  }
-
-  static recoverAccount(recoveryPhrase: string): Wallet {
-    return Wallet.fromMnemonic(recoveryPhrase)
   }
 
   async sendTransaction(
@@ -92,5 +147,21 @@ export default class ExternallyOwnedAccount implements Account {
   async getBalance(): Promise<string> {
     const balance = await this.provider.getBalance(this.address)
     return ethers.utils.formatEther(balance)
+  }
+
+  static isPrivateKey(
+    input: PrivateKey | SeedPhrase | undefined,
+  ): input is PrivateKey {
+    if (isNullOrUndefined(input)) return false
+    const privateKeyPattern = /^0x[a-fA-F0-9]{64}$/
+    return privateKeyPattern.test(input as string)
+  }
+
+  static isSeedPhrase(
+    input: PrivateKey | SeedPhrase | undefined,
+  ): input is SeedPhrase {
+    if (isNullOrUndefined(input)) return false
+    const seedPhrasePattern = /^([a-z]+ ){11}[a-z]+$/
+    return seedPhrasePattern.test(input as string)
   }
 }

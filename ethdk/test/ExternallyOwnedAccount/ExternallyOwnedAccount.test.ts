@@ -6,6 +6,7 @@ import ExternallyOwnedAccount from '../../src/ExternallyOwnedAccount/ExternallyO
 import ExternallyOwnedAccountTransaction from '../../src/ExternallyOwnedAccount/ExternallyOwnedAccountTransaction'
 import { EOA_NETWORKS } from '../../src/Networks'
 import * as networkModule from '../../src/ExternallyOwnedAccount/ExternallyOwnedAccountNetworks'
+import { type SeedPhrase, type PrivateKey } from '../../src/types/brands'
 
 describe('ExternallyOwnedAccount', () => {
   afterEach(() => {
@@ -15,7 +16,8 @@ describe('ExternallyOwnedAccount', () => {
   describe('createAccount', () => {
     it('should create an account with a given private key', async () => {
       // Arrange
-      const privateKey = '0x123'
+      const privateKey =
+        '0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80' as PrivateKey
       const expectedWallet = Wallet.createRandom(privateKey)
 
       const walletStub = sinon
@@ -25,7 +27,7 @@ describe('ExternallyOwnedAccount', () => {
       const getNetworkSpy = sinon.spy(networkModule, 'getNetwork')
 
       const accountConfig = {
-        privateKey,
+        privateKeyOrSeedPhrase: privateKey,
         network: EOA_NETWORKS.localhost,
       }
 
@@ -57,8 +59,8 @@ describe('ExternallyOwnedAccount', () => {
       // Assert
       expect(account).to.be.instanceOf(ExternallyOwnedAccount)
       expect(account.address).to.equal(expectedWallet.address)
-      expect(walletStub.calledOnceWith(undefined)).to.equal(true)
-      expect(getNetworkSpy.calledOnceWith(undefined)).to.equal(true)
+      expect(walletStub.calledOnceWith(/* nothing */)).to.equal(true)
+      expect(getNetworkSpy.calledOnceWith(/* nothing */)).to.equal(true)
     })
   })
 
@@ -73,39 +75,6 @@ describe('ExternallyOwnedAccount', () => {
 
       // Assert
       expect(result).to.equal(expectedWallet.privateKey)
-    })
-  })
-
-  describe('recoverAccount', () => {
-    it('should recover the account given a valid recovery phrase', async () => {
-      // Arrange
-      const wallet = Wallet.createRandom()
-
-      // Act
-      const result = ExternallyOwnedAccount.recoverAccount(
-        wallet.mnemonic.phrase,
-      )
-
-      // Assert
-      expect(result.privateKey).to.equal(wallet.privateKey)
-      expect(result.address).to.equal(wallet.address)
-    })
-
-    it('should not recover the account given an invalid recovery phrase', async () => {
-      // Arrange
-      const wallet = Wallet.createRandom()
-      const imposterWallet = Wallet.createRandom()
-
-      // Act
-      const result = ExternallyOwnedAccount.recoverAccount(
-        imposterWallet.mnemonic.phrase,
-      )
-
-      // Assert
-      expect(result.privateKey).to.not.equal(wallet.privateKey)
-      expect(result.address).to.not.equal(wallet.address)
-      expect(result.privateKey).to.equal(imposterWallet.privateKey)
-      expect(result.address).to.equal(imposterWallet.address)
     })
   })
 
@@ -150,6 +119,76 @@ describe('ExternallyOwnedAccount', () => {
 
       // Assert
       expect(result).to.equal('1.23')
+    })
+  })
+
+  describe('isPrivateKey', () => {
+    it('should return true for a valid private key', async () => {
+      // Arrange
+      const privateKey =
+        '0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80' as PrivateKey
+
+      // Act
+      const result = ExternallyOwnedAccount.isPrivateKey(privateKey)
+
+      // Assert
+      expect(result).to.equal(true)
+    })
+
+    const testCases = [
+      '0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff800',
+      '0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff8',
+      'ac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80',
+      '0x',
+      '0x00',
+      'undefined',
+    ]
+    testCases.forEach((testCase) => {
+      it(`should return false for an invalid private key: ${testCase}`, async () => {
+        // Arrange & Act
+        const result = ExternallyOwnedAccount.isPrivateKey(
+          testCase as PrivateKey,
+        )
+        // Assert
+        expect(result).to.equal(false)
+      })
+    })
+  })
+
+  describe('isSeedPhrase', () => {
+    const validTestCases = [
+      'sock poet alone around radar forum quiz session observe rebel another choice',
+      'test test test test test test test test test test test junk',
+    ]
+    validTestCases.forEach((testCase) => {
+      it(`should return true for a valid seed phrase: ${testCase}`, async () => {
+        // Arrange & Act
+        const result = ExternallyOwnedAccount.isSeedPhrase(
+          testCase as SeedPhrase,
+        )
+
+        // Assert
+        expect(result).to.equal(true)
+      })
+    })
+
+    const invalidTestCases = [
+      'sock poet alone around radar forum quiz session observe rebel another choice long',
+      'sock poet alone around radar forum quiz session observe rebel short',
+      'sock poet alone around radar forum quiz session observe rebel another numb3r',
+      'sock poet alone around radar forum quiz session observe rebel another whitespa ce',
+      'Sock Poet Alone Around Radar Forum Quiz Session Observe Rebel Another Captials',
+    ]
+    invalidTestCases.forEach((testCase) => {
+      it(`should return true for an invalid seed phrase: ${testCase}`, async () => {
+        // Arrange & Act
+        const result = ExternallyOwnedAccount.isSeedPhrase(
+          testCase as SeedPhrase,
+        )
+
+        // Assert
+        expect(result).to.equal(false)
+      })
     })
   })
 })
