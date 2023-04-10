@@ -11,3 +11,9 @@ export interface BlsNetwork extends Network {
   verificationGateway: string
   aggregatorUtilities: string
 }
+
+export interface AccountAbstractionNetwork extends Network {
+  type: 'aa'
+  entryPointAddress: string
+  bundlerUrl: string
+}
