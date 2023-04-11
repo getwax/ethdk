@@ -1,8 +1,8 @@
 import { expect } from 'chai'
 import { describe, it, afterEach } from 'mocha'
-import BlsAccount from '../src/Bls/BlsAccount'
-import BlsTransaction from '../src/Bls/BlsTransaction'
-import { BLS_NETWORKS } from '../src/Networks'
+import BlsAccount from '../../src/Bls/BlsAccount'
+import BlsTransaction from '../../src/Bls/BlsTransaction'
+import { BLS_NETWORKS } from '../../src/Networks'
 import sinon from 'sinon'
 
 import { ethers } from 'ethers'

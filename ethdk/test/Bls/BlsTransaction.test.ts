@@ -1,8 +1,8 @@
 import { expect } from 'chai'
 import sinon from 'sinon'
 import { Aggregator } from 'bls-wallet-clients'
-import BlsTransaction from '../src/Bls/BlsTransaction'
-import { BLS_NETWORKS } from '../src/Networks'
+import BlsTransaction from '../../src/Bls/BlsTransaction'
+import { BLS_NETWORKS } from '../../src/Networks'
 
 describe('BlsTransaction', () => {
   afterEach(() => {

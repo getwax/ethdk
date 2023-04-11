@@ -1,7 +1,10 @@
-import { localhost } from '../Bls/BlsNetworks'
+import { localhost as blsLocalhost } from '../Bls/BlsNetworks'
+import { localhost as eoaLocalhost } from '../ExternallyOwnedAccount/ExternallyOwnedAccountNetworks'
 
 export const BLS_NETWORKS = {
-  localhost,
+  localhost: blsLocalhost,
 }
 
-export const EOA_NETWORKS = {}
+export const EOA_NETWORKS = {
+  localhost: eoaLocalhost,
+}
