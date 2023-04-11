@@ -1,7 +1,6 @@
 import { type Network } from './interfaces/Network'
 import BlsAccount from './Bls/BlsAccount'
 import ExternallyOwnedAccount from './ExternallyOwnedAccount/ExternallyOwnedAccount'
-import { type PrivateKey } from './types/brands'
 
 interface AccountConfig {
   accountType: 'bls' | 'eoa'
@@ -36,8 +35,8 @@ export async function createAccount<T extends keyof AccountTypeMap>({
   }
 
   if (accountType === 'eoa') {
-    const account = await ExternallyOwnedAccount.createAccount({
-      privateKeyOrSeedPhrase: privateKey as PrivateKey,
+    const account = ExternallyOwnedAccount.createAccount({
+      privateKey,
       network,
     })
     return account as AccountTypeToReturnType<T>

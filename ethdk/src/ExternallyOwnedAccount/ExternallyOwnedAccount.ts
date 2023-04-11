@@ -9,7 +9,6 @@ import type Transaction from '../interfaces/Transaction'
 import { getNetwork } from './ExternallyOwnedAccountNetworks'
 import ExternallyOwnedAccountTransaction from './ExternallyOwnedAccountTransaction'
 import isNullOrUndefined from '../utils/isNullOrUndefined'
-import { type PrivateKey, type SeedPhrase } from '../types/brands'
 
 export default class ExternallyOwnedAccount implements Account {
   accountType: string = 'eoa'
@@ -44,13 +43,40 @@ export default class ExternallyOwnedAccount implements Account {
     this.signer = signer
   }
 
-  static async createAccount({
-    privateKeyOrSeedPhrase,
+  static createAccount({
+    privateKey,
     network,
   }: {
-    privateKeyOrSeedPhrase?: PrivateKey | SeedPhrase
+    privateKey?: string
     network?: Network
-  } = {}): Promise<ExternallyOwnedAccount> {
+  } = {}): ExternallyOwnedAccount {
+    if (isNullOrUndefined(privateKey)) {
+      return this.createAccountFromPrivateKey({
+        privateKey: Wallet.createRandom().privateKey,
+      })
+    }
+
+    return this.createAccountFromPrivateKey({
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      privateKey: privateKey!,
+      network,
+    })
+  }
+
+  static createAccountFromPrivateKey({
+    privateKey,
+    network,
+  }: {
+    privateKey: string
+    network?: Network
+  }): ExternallyOwnedAccount {
+    const validatedPrivateKey = this.validatePrivateKey(privateKey)
+    if (validatedPrivateKey.success === false) {
+      throw new Error(`Invalid private key: ${validatedPrivateKey.error}`)
+    }
+
+    const signer = Wallet.createRandom(privateKey)
+
     const networkConfig = getNetwork(network)
 
     const provider = new ethers.providers.JsonRpcProvider(
@@ -61,23 +87,6 @@ export default class ExternallyOwnedAccount implements Account {
       },
     )
 
-    if (this.isPrivateKey(privateKeyOrSeedPhrase)) {
-      return await this.createAccountFromPrivateKey({
-        privateKey: privateKeyOrSeedPhrase,
-        networkConfig,
-        provider,
-      })
-    }
-    if (this.isSeedPhrase(privateKeyOrSeedPhrase)) {
-      return await this.createAccountFromSeedPhrase({
-        seedPhrase: privateKeyOrSeedPhrase,
-        networkConfig,
-        provider,
-      })
-    }
-
-    const signer = Wallet.createRandom()
-
     return new ExternallyOwnedAccount({
       address: signer.address,
       privateKey: signer.privateKey,
@@ -88,37 +97,29 @@ export default class ExternallyOwnedAccount implements Account {
     })
   }
 
-  static async createAccountFromPrivateKey({
-    privateKey,
-    networkConfig,
-    provider,
-  }: {
-    privateKey: PrivateKey
-    networkConfig: ExternallyOwnedAccountNetwork
-    provider: ethers.providers.JsonRpcProvider
-  }): Promise<ExternallyOwnedAccount> {
-    const signer = Wallet.createRandom(privateKey)
-
-    return new ExternallyOwnedAccount({
-      address: signer.address,
-      privateKey: signer.privateKey,
-      seedPhrase: signer.mnemonic.phrase,
-      network: networkConfig,
-      provider,
-      signer,
-    })
-  }
-
-  static async createAccountFromSeedPhrase({
+  static createAccountFromSeedPhrase({
     seedPhrase,
-    networkConfig,
-    provider,
+    network,
   }: {
-    seedPhrase: SeedPhrase
-    networkConfig: ExternallyOwnedAccountNetwork
-    provider: ethers.providers.JsonRpcProvider
-  }): Promise<ExternallyOwnedAccount> {
+    seedPhrase: string
+    network?: Network
+  }): ExternallyOwnedAccount {
+    const validatedSeedPhrase = this.validateSeedPhrase(seedPhrase)
+    if (validatedSeedPhrase.success === false) {
+      throw new Error(`Invalid seed phrase: ${validatedSeedPhrase.error}`)
+    }
+
     const signer = Wallet.fromMnemonic(seedPhrase)
+
+    const networkConfig = getNetwork(network)
+
+    const provider = new ethers.providers.JsonRpcProvider(
+      networkConfig.rpcUrl,
+      {
+        name: networkConfig.name,
+        chainId: networkConfig.chainId,
+      },
+    )
 
     return new ExternallyOwnedAccount({
       address: signer.address,
@@ -149,19 +150,57 @@ export default class ExternallyOwnedAccount implements Account {
     return ethers.utils.formatEther(balance)
   }
 
-  static isPrivateKey(
-    input: PrivateKey | SeedPhrase | undefined,
-  ): input is PrivateKey {
-    if (isNullOrUndefined(input)) return false
-    const privateKeyPattern = /^0x[a-fA-F0-9]{64}$/
-    return privateKeyPattern.test(input as string)
+  static validatePrivateKey(input: string): {
+    success: boolean
+    error: string
+  } {
+    if (!input.startsWith('0x')) {
+      return { success: false, error: 'Private key must start with "0x"' }
+    }
+
+    if (input.length !== 66) {
+      return {
+        success: false,
+        error:
+          'Private key must be 64 characters long, excluding the "0x" prefix',
+      }
+    }
+
+    const validCharactersPattern = /^[a-fA-F0-9]{64}$/
+    if (!validCharactersPattern.test(input.slice(2))) {
+      return {
+        success: false,
+        error:
+          'Private key must only contain lowercase or uppercase hexadecimal characters (a-f, A-F, 0-9)',
+      }
+    }
+
+    return { success: true, error: '' }
   }
 
-  static isSeedPhrase(
-    input: PrivateKey | SeedPhrase | undefined,
-  ): input is SeedPhrase {
-    if (isNullOrUndefined(input)) return false
-    const seedPhrasePattern = /^([a-z]+ ){11}[a-z]+$/
-    return seedPhrasePattern.test(input as string)
+  static validateSeedPhrase(input: string): {
+    success: boolean
+    error: string
+  } {
+    const words = input.split(' ')
+    if (words.length !== 12) {
+      return {
+        success: false,
+        error: 'Seed phrase must contain exactly 12 words',
+      }
+    }
+
+    const lowercaseLettersPattern = /^[a-z]+$/
+    for (const word of words) {
+      if (!lowercaseLettersPattern.test(word)) {
+        return {
+          success: false,
+          error:
+            'Each word in the seed phrase must only contain lowercase letters (a-z)',
+        }
+      }
+    }
+
+    return { success: true, error: '' }
   }
 }
