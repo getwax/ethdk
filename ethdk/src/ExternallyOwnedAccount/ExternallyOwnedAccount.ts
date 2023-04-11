@@ -9,6 +9,8 @@ import type Transaction from '../interfaces/Transaction'
 import { getNetwork } from './ExternallyOwnedAccountNetworks'
 import ExternallyOwnedAccountTransaction from './ExternallyOwnedAccountTransaction'
 import isNullOrUndefined from '../utils/isNullOrUndefined'
+import validatePrivateKey from '../utils/validatePrivateKey'
+import validateSeedPhrase from '../utils/validateSeedPhrase'
 
 export default class ExternallyOwnedAccount implements Account {
   accountType: string = 'eoa'
@@ -70,7 +72,7 @@ export default class ExternallyOwnedAccount implements Account {
     privateKey: string
     network?: Network
   }): ExternallyOwnedAccount {
-    const validatedPrivateKey = this.validatePrivateKey(privateKey)
+    const validatedPrivateKey = validatePrivateKey(privateKey)
     if (validatedPrivateKey.success === false) {
       throw new Error(`Invalid private key: ${validatedPrivateKey.error}`)
     }
@@ -104,7 +106,7 @@ export default class ExternallyOwnedAccount implements Account {
     seedPhrase: string
     network?: Network
   }): ExternallyOwnedAccount {
-    const validatedSeedPhrase = this.validateSeedPhrase(seedPhrase)
+    const validatedSeedPhrase = validateSeedPhrase(seedPhrase)
     if (validatedSeedPhrase.success === false) {
       throw new Error(`Invalid seed phrase: ${validatedSeedPhrase.error}`)
     }
@@ -148,59 +150,5 @@ export default class ExternallyOwnedAccount implements Account {
   async getBalance(): Promise<string> {
     const balance = await this.provider.getBalance(this.address)
     return ethers.utils.formatEther(balance)
-  }
-
-  static validatePrivateKey(input: string): {
-    success: boolean
-    error: string
-  } {
-    if (!input.startsWith('0x')) {
-      return { success: false, error: 'Private key must start with "0x"' }
-    }
-
-    if (input.length !== 66) {
-      return {
-        success: false,
-        error:
-          'Private key must be 64 characters long, excluding the "0x" prefix',
-      }
-    }
-
-    const validCharactersPattern = /^[a-fA-F0-9]{64}$/
-    if (!validCharactersPattern.test(input.slice(2))) {
-      return {
-        success: false,
-        error:
-          'Private key must only contain lowercase or uppercase hexadecimal characters (a-f, A-F, 0-9)',
-      }
-    }
-
-    return { success: true, error: '' }
-  }
-
-  static validateSeedPhrase(input: string): {
-    success: boolean
-    error: string
-  } {
-    const words = input.split(' ')
-    if (words.length !== 12) {
-      return {
-        success: false,
-        error: 'Seed phrase must contain exactly 12 words',
-      }
-    }
-
-    const lowercaseLettersPattern = /^[a-z]+$/
-    for (const word of words) {
-      if (!lowercaseLettersPattern.test(word)) {
-        return {
-          success: false,
-          error:
-            'Each word in the seed phrase must only contain lowercase letters (a-z)',
-        }
-      }
-    }
-
-    return { success: true, error: '' }
   }
 }
