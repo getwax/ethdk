@@ -17,3 +17,7 @@ export interface AccountAbstractionNetwork extends Network {
   entryPointAddress: string
   bundlerUrl: string
 }
+
+export interface ExternallyOwnedAccountNetwork extends Network {
+  type: 'eoa'
+}

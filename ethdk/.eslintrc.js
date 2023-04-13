@@ -16,5 +16,6 @@ module.exports = {
   rules: {
     indent: ['error', 2],
     'prettier/prettier': 'error',
+    '@typescript-eslint/no-unnecessary-boolean-literal-compare': 'off',
   },
 }
