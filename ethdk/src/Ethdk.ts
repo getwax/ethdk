@@ -1,14 +1,16 @@
 import { type Network } from './interfaces/Network'
 import BlsAccount from './Bls/BlsAccount'
+import AccountAbstractionAccount from './AccountAbstraction/AccountAbstractionAccount'
 
 interface AccountConfig {
-  accountType: 'bls' | 'eoa'
+  accountType: 'bls' | 'eoa' | 'aa'
   privateKey?: string
   network?: Network
 }
 
 interface AccountTypeMap {
   bls: BlsAccount
+  aa: AccountAbstractionAccount
   // Add more types as needed
 }
 
@@ -27,6 +29,13 @@ export async function createAccount<T extends keyof AccountTypeMap>({
 }: AccountConfig & { accountType: T }): Promise<AccountTypeToReturnType<T>> {
   if (accountType === 'bls') {
     const account = await BlsAccount.createAccount({
+      privateKey,
+      network,
+    })
+    return account as AccountTypeToReturnType<T>
+  }
+  if (accountType === 'aa') {
+    const account = await AccountAbstractionAccount.createAccount({
       privateKey,
       network,
     })

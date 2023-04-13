@@ -6,10 +6,12 @@ import {
 import { ethers, Wallet } from 'ethers'
 
 import type Account from '../interfaces/Account'
-import { type TransactionRequest } from '@ethersproject/abstract-provider'
 import { type Deferrable } from 'ethers/lib/utils'
 import type Transaction from '../interfaces/Transaction'
-import { type AccountAbstractionNetwork } from '../interfaces/Network'
+import {
+  type Network,
+  type AccountAbstractionNetwork,
+} from '../interfaces/Network'
 import { getNetwork } from './AccountAbstractionNetworks'
 import AccountAbstractionTransaction from './AccountAbstractionTransaction'
 
@@ -47,7 +49,7 @@ export default class AccountAbstractionAccount implements Account {
     network,
   }: {
     privateKey?: string
-    network?: AccountAbstractionNetwork
+    network?: Network
   }): Promise<AccountAbstractionAccount> {
     const networkConfig = getNetwork(network)
 
@@ -82,12 +84,25 @@ export default class AccountAbstractionAccount implements Account {
   }
 
   async sendTransaction(
-    transaction: Deferrable<TransactionRequest>,
+    transaction: Deferrable<ethers.providers.TransactionRequest>,
   ): Promise<Transaction> {
     const response = await this.aaSigner.sendTransaction(transaction)
     return new AccountAbstractionTransaction({
       hash: response.hash,
       network: this.networkConfig,
     })
+  }
+
+  static async generatePrivateKey(): Promise<string> {
+    return Wallet.createRandom().privateKey
+  }
+
+  /**
+   * Get the balance of this account
+   * @returns The balance of this account formated in ether (instead of wei)
+   */
+  async getBalance(): Promise<string> {
+    const balance = await this.aaProvider.getBalance(this.address)
+    return ethers.utils.formatEther(balance)
   }
 }
