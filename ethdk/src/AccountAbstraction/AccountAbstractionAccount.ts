@@ -65,14 +65,7 @@ export default class AccountAbstractionAccount implements Account {
         ? Wallet.createRandom()
         : new Wallet(privateKey, provider)
 
-    const aaProvider = await wrapProvider(
-      provider,
-      {
-        entryPointAddress: networkConfig.entryPointAddress,
-        bundlerUrl: networkConfig.bundlerUrl,
-      },
-      signer,
-    )
+    const aaProvider = await this.getAaProvider(provider, signer, networkConfig)
 
     return new AccountAbstractionAccount({
       address: await aaProvider.getSigner().getAddress(),
@@ -104,5 +97,22 @@ export default class AccountAbstractionAccount implements Account {
   async getBalance(): Promise<string> {
     const balance = await this.aaProvider.getBalance(this.address)
     return ethers.utils.formatEther(balance)
+  }
+
+  // Creating a helper function to get the provider
+  // so we can mock the provider for testing
+  static async getAaProvider(
+    provider: ethers.providers.JsonRpcProvider,
+    signer: ethers.Signer,
+    networkConfig: AccountAbstractionNetwork,
+  ): Promise<aaSdk.ERC4337EthersProvider> {
+    return await aaSdk.wrapProvider(
+      provider,
+      {
+        entryPointAddress: networkConfig.entryPointAddress,
+        bundlerUrl: networkConfig.bundlerUrl,
+      },
+      signer,
+    )
   }
 }
