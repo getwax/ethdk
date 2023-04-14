@@ -105,8 +105,8 @@ export default class AccountAbstractionAccount implements Account {
     provider: ethers.providers.JsonRpcProvider,
     signer: ethers.Signer,
     networkConfig: AccountAbstractionNetwork,
-  ): Promise<aaSdk.ERC4337EthersProvider> {
-    return await aaSdk.wrapProvider(
+  ): Promise<ERC4337EthersProvider> {
+    return await wrapProvider(
       provider,
       {
         entryPointAddress: networkConfig.entryPointAddress,
