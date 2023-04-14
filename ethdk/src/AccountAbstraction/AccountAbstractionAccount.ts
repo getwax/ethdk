@@ -50,7 +50,7 @@ export default class AccountAbstractionAccount implements Account {
   }: {
     privateKey?: string
     network?: Network
-  }): Promise<AccountAbstractionAccount> {
+  } = {}): Promise<AccountAbstractionAccount> {
     const networkConfig = getNetwork(network)
 
     const provider = new ethers.providers.JsonRpcProvider(

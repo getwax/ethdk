@@ -65,7 +65,7 @@ describe('AccountAbstractionAccount', () => {
         .returns(new Wallet(privateKey))
 
       // Act
-      const account = await AccountAbstractionAccount.createAccount({})
+      const account = await AccountAbstractionAccount.createAccount()
 
       // Assert
       expect(account).to.be.instanceOf(AccountAbstractionAccount)

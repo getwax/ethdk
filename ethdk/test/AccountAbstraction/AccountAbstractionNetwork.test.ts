@@ -30,7 +30,7 @@ describe('getNetwork', () => {
     expect(resultNetwork).to.deep.equal(expectedNetwork)
   })
 
-  it('should return the ExternallyOwnedAccountNetwork when network type is eoa', () => {
+  it('should return the ExternallyOwnedAccountNetwork when network type is aa', () => {
     // Arrange
     const expectedNetwork = {
       type: 'aa',
@@ -48,7 +48,7 @@ describe('getNetwork', () => {
     expect(resultNetwork).to.deep.equal(expectedNetwork)
   })
 
-  it('should throw an error when network type is not eoa', () => {
+  it('should throw an error when network type is not aa', () => {
     // Arrange
     const network = {
       type: 'unsupported',
