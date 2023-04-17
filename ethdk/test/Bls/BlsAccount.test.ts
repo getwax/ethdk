@@ -6,7 +6,12 @@ import { BLS_NETWORKS } from '../../src/Networks'
 import sinon from 'sinon'
 
 import { ethers } from 'ethers'
-import { BlsWalletWrapper, Aggregator, Experimental } from 'bls-wallet-clients'
+import {
+  BlsWalletWrapper,
+  Aggregator,
+  BlsProvider,
+  BlsSigner,
+} from 'bls-wallet-clients'
 
 describe('BlsAccount', () => {
   afterEach(() => {
@@ -19,9 +24,7 @@ describe('BlsAccount', () => {
       const privateKey = '0x123'
       const mockAddress = '0x12345'
 
-      sinon
-        .stub(Experimental.BlsSigner.prototype, 'getAddress')
-        .resolves(mockAddress)
+      sinon.stub(BlsSigner.prototype, 'getAddress').resolves(mockAddress)
 
       // Act
       const accountConfig = {
@@ -40,9 +43,7 @@ describe('BlsAccount', () => {
       const privateKey = '0x123'
       const mockAddress = '0x12345'
 
-      sinon
-        .stub(Experimental.BlsSigner.prototype, 'getAddress')
-        .resolves(mockAddress)
+      sinon.stub(BlsSigner.prototype, 'getAddress').resolves(mockAddress)
       sinon
         .stub(BlsWalletWrapper, 'getRandomBlsPrivateKey')
         .resolves(privateKey)
@@ -78,12 +79,10 @@ describe('BlsAccount', () => {
     const mockTransactionResponse = { hash: '0x67890' }
     const mockAddress = '0x12345'
     sinon
-      .stub(Experimental.BlsSigner.prototype, 'sendTransaction')
+      .stub(BlsSigner.prototype, 'sendTransaction')
       .resolves(mockTransactionResponse as any)
 
-    sinon
-      .stub(Experimental.BlsSigner.prototype, 'getAddress')
-      .resolves(mockAddress)
+    sinon.stub(BlsSigner.prototype, 'getAddress').resolves(mockAddress)
 
     const accountConfig = {
       privateKey: '0x123',
@@ -201,13 +200,9 @@ describe('BlsAccount', () => {
       const balance = ethers.utils.parseEther('1.23')
       const mockAddress = '0x12345'
 
-      sinon
-        .stub(Experimental.BlsProvider.prototype, 'getBalance')
-        .resolves(balance)
+      sinon.stub(BlsProvider.prototype, 'getBalance').resolves(balance)
 
-      sinon
-        .stub(Experimental.BlsSigner.prototype, 'getAddress')
-        .resolves(mockAddress)
+      sinon.stub(BlsSigner.prototype, 'getAddress').resolves(mockAddress)
       const accountConfig = {
         privateKey: '0x123',
         network: BLS_NETWORKS.localhost,
