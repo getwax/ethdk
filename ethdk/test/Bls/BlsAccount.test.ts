@@ -15,6 +15,7 @@ describe('BlsAccount', () => {
 
   describe('createAccount', () => {
     it('should create an account with a given private key', async () => {
+      // Arrange
       const privateKey = '0x123'
       const mockAddress = '0x12345'
 
@@ -22,17 +23,20 @@ describe('BlsAccount', () => {
         .stub(Experimental.BlsSigner.prototype, 'getAddress')
         .resolves(mockAddress)
 
+      // Act
       const accountConfig = {
         privateKey,
         network: BLS_NETWORKS.localhost,
       }
       const account = await BlsAccount.createAccount(accountConfig)
 
+      // Assert
       expect(account).to.be.instanceOf(BlsAccount)
       expect(account.address).to.equal(mockAddress)
     })
 
     it('should create an account with a generated private key', async () => {
+      // Arrange
       const privateKey = '0x123'
       const mockAddress = '0x12345'
 
@@ -43,8 +47,10 @@ describe('BlsAccount', () => {
         .stub(BlsWalletWrapper, 'getRandomBlsPrivateKey')
         .resolves(privateKey)
 
+      // Act
       const account = await BlsAccount.createAccount({})
 
+      // Assert
       expect(account).to.be.instanceOf(BlsAccount)
       expect(account.address).to.equal(mockAddress)
     })
@@ -52,19 +58,23 @@ describe('BlsAccount', () => {
 
   describe('generatePrivateKey', () => {
     it('should return a generated private key', async () => {
+      // Arrange
       const privateKey = '0x123'
 
       sinon
         .stub(BlsWalletWrapper, 'getRandomBlsPrivateKey')
         .resolves(privateKey)
 
+      // Act
       const result = await BlsAccount.generatePrivateKey()
 
+      // Assert
       expect(result).to.equal(privateKey)
     })
   })
 
   it('should send a transaction successfully', async () => {
+    // Arrange
     const mockTransactionResponse = { hash: '0x67890' }
     const mockAddress = '0x12345'
     sinon
@@ -81,6 +91,7 @@ describe('BlsAccount', () => {
     }
     const account = await BlsAccount.createAccount(accountConfig)
 
+    // Act
     const transactionParams = {
       to: '0x12345',
       value: '0',
@@ -88,12 +99,14 @@ describe('BlsAccount', () => {
     }
     const transaction = await account.sendTransaction(transactionParams)
 
+    // Assert
     expect(transaction).to.be.instanceOf(BlsTransaction)
     expect(transaction.hash).to.equal(mockTransactionResponse.hash)
   })
 
   describe('setTrustedAccount', () => {
     it('should set a trusted account successfully', async () => {
+      // Arrange
       const mockBundle = { some: 'bundle' }
       const mockGetSetRecoveryHashBundle = sinon.stub().resolves(mockBundle)
       const mockWallet: any = {
@@ -114,6 +127,7 @@ describe('BlsAccount', () => {
       }
       const account = await BlsAccount.createAccount(accountConfig)
 
+      // Act
       const recoveryPhrase = 'some phrase'
       const trustedAccountAddress = '0x12345'
       const transaction = await account.setTrustedAccount(
@@ -121,6 +135,7 @@ describe('BlsAccount', () => {
         trustedAccountAddress,
       )
 
+      // Assert
       expect(transaction).to.be.instanceOf(BlsTransaction)
       expect(transaction.hash).to.equal(mockResult.hash)
       expect(
@@ -134,6 +149,7 @@ describe('BlsAccount', () => {
 
   describe('resetAccountPrivateKey', () => {
     it('should reset the account private key successfully', async () => {
+      // Arrange
       const mockBundle = { some: 'bundle' }
       const mockGetRecoverWalletBundle = sinon.stub().resolves(mockBundle)
       const mockWallet: any = {
@@ -156,6 +172,7 @@ describe('BlsAccount', () => {
       }
       const account = await BlsAccount.createAccount(accountConfig)
 
+      // Act
       const compromisedAccountAddress = '0x98765'
       const recoveryPhrase = 'some_recovery_phrase'
       const newPrivateKey = '0x456'
@@ -165,6 +182,7 @@ describe('BlsAccount', () => {
         newPrivateKey,
       )
 
+      // Assert
       expect(transaction).to.be.instanceOf(BlsTransaction)
       expect(transaction.hash).to.equal(mockResult.hash)
       expect(
@@ -179,6 +197,7 @@ describe('BlsAccount', () => {
 
   describe('getBalance', () => {
     it('should get the balance of an account successfully', async () => {
+      // Arrange
       const balance = ethers.utils.parseEther('1.23')
       const mockAddress = '0x12345'
 
@@ -194,8 +213,11 @@ describe('BlsAccount', () => {
         network: BLS_NETWORKS.localhost,
       }
       const account = await BlsAccount.createAccount(accountConfig)
+
+      // Act
       const result = await account.getBalance()
 
+      // Assert
       expect(result).to.equal('1.23')
     })
   })
