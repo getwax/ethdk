@@ -48,7 +48,7 @@ describe('BlsAccount', () => {
         .resolves(privateKey)
 
       // Act
-      const account = await BlsAccount.createAccount({})
+      const account = await BlsAccount.createAccount()
 
       // Assert
       expect(account).to.be.instanceOf(BlsAccount)

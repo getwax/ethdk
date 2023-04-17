@@ -48,7 +48,7 @@ export default class BlsAccount implements Account {
   }: {
     privateKey?: string
     network?: Network
-  }): Promise<BlsAccount> {
+  } = {}): Promise<BlsAccount> {
     const privateKey = pk ?? (await BlsWalletWrapper.getRandomBlsPrivateKey())
     const networkConfig = getNetwork(network)
 

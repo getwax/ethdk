@@ -14,6 +14,7 @@ import {
 } from '../interfaces/Network'
 import { getNetwork } from './AccountAbstractionNetworks'
 import AccountAbstractionTransaction from './AccountAbstractionTransaction'
+import isNullOrUndefined from '../utils/isNullOrUndefined'
 
 export default class AccountAbstractionAccount implements Account {
   accountType: string = 'aa'
@@ -60,10 +61,9 @@ export default class AccountAbstractionAccount implements Account {
         chainId: networkConfig.chainId,
       },
     )
-    const signer =
-      privateKey === undefined || privateKey === null
-        ? Wallet.createRandom()
-        : new Wallet(privateKey, provider)
+    const signer = isNullOrUndefined(privateKey)
+      ? Wallet.createRandom()
+      : new Wallet(privateKey, provider)
 
     const aaProvider = await this.getAaProvider(provider, signer, networkConfig)
 

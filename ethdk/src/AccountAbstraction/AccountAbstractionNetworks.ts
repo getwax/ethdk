@@ -2,6 +2,7 @@ import {
   type Network,
   type AccountAbstractionNetwork,
 } from '../interfaces/Network'
+import isNullOrUndefined from '../utils/isNullOrUndefined'
 
 export const localhost: AccountAbstractionNetwork = {
   type: 'aa',
@@ -13,7 +14,7 @@ export const localhost: AccountAbstractionNetwork = {
 }
 
 export function getNetwork(network?: Network): AccountAbstractionNetwork {
-  if (network === undefined || network === null) {
+  if (isNullOrUndefined(network)) {
     // Return default network
     return localhost
   }

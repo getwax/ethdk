@@ -59,8 +59,7 @@ export default class ExternallyOwnedAccount implements Account {
     }
 
     return this.createAccountFromPrivateKey({
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      privateKey: privateKey!,
+      privateKey,
       network,
     })
   }
