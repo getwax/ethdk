@@ -11,6 +11,7 @@ describe('BlsTransaction', () => {
 
   describe('getTransactionReceipt', () => {
     it('should return the transaction receipt', async () => {
+      // Arrange
       const bundleHash = 'testBundleHash'
       const mockReceipt: any = {
         bundleHash,
@@ -29,8 +30,10 @@ describe('BlsTransaction', () => {
         bundleHash,
       })
 
+      // Act
       const receipt = await transaction.getTransactionReceipt()
 
+      // Assert
       expect(receipt).to.deep.equal(mockReceipt)
       expect(mockAggregator.lookupReceipt.calledOnceWith(bundleHash)).to.equal(
         true,

@@ -2,6 +2,7 @@ import {
   type Network,
   type ExternallyOwnedAccountNetwork,
 } from '../interfaces/Network'
+import isNullOrUndefined from '../utils/isNullOrUndefined'
 
 export const localhost: ExternallyOwnedAccountNetwork = {
   type: 'eoa',
@@ -13,7 +14,7 @@ export const localhost: ExternallyOwnedAccountNetwork = {
 const defaultNetwork = localhost
 
 export function getNetwork(network?: Network): ExternallyOwnedAccountNetwork {
-  if (network === undefined || network === null) {
+  if (isNullOrUndefined(network)) {
     return defaultNetwork
   }
 

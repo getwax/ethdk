@@ -1,4 +1,5 @@
 import { type Network, type BlsNetwork } from '../interfaces/Network'
+import isNullOrUndefined from '../utils/isNullOrUndefined'
 
 export const localhost: BlsNetwork = {
   type: 'bls',
@@ -11,7 +12,7 @@ export const localhost: BlsNetwork = {
 }
 
 export function getNetwork(network?: Network): BlsNetwork {
-  if (network === undefined || network === null) {
+  if (isNullOrUndefined(network)) {
     // Return default network
     return localhost
   }

@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import sinon from 'sinon'
-import { AA_NETWORKS } from '../../src/Networks'
-import { getNetwork } from '../../src/AccountAbstraction/AccountAbstractionNetworks'
+import { BLS_NETWORKS } from '../../src/Networks'
+import { getNetwork } from '../../src/Bls/BlsNetworks'
 
 describe('getNetwork', () => {
   afterEach(() => {
@@ -10,7 +10,7 @@ describe('getNetwork', () => {
 
   it('should return the default network when network is undefined', () => {
     // Arrange
-    const expectedNetwork = AA_NETWORKS.localhost
+    const expectedNetwork = BLS_NETWORKS.localhost
 
     // Act
     const resultNetwork = getNetwork(undefined)
@@ -21,7 +21,7 @@ describe('getNetwork', () => {
 
   it('should return the default network when network is null', () => {
     // Arrange
-    const expectedNetwork = AA_NETWORKS.localhost
+    const expectedNetwork = BLS_NETWORKS.localhost
 
     // Act
     const resultNetwork = getNetwork(null as any)
@@ -30,25 +30,26 @@ describe('getNetwork', () => {
     expect(resultNetwork).to.deep.equal(expectedNetwork)
   })
 
-  it('should return the AccountAbstractionNework when network type is aa', () => {
+  it('should return the BlsNetwork when network type is bls', () => {
     // Arrange
     const expectedNetwork = {
-      type: 'aa',
+      type: 'bls',
       name: 'localhost',
       chainId: 1337,
       rpcUrl: 'http://localhost:8545',
-      bundlerUrl: 'http://localhost:3000/rpc',
-      entryPointAddress: '0x0576a174d229e3cfa37253523e645a78a0c91b57',
+      aggregatorUrl: 'http://localhost:3000',
+      aggregatorUtilities: '0x76cE3c1F2E6d87c355560fCbd28ccAcAe03f95F6',
+      verificationGateway: '0x689A095B4507Bfa302eef8551F90fB322B3451c6',
     }
 
     // Act
-    const resultNetwork = getNetwork(AA_NETWORKS.localhost)
+    const resultNetwork = getNetwork(BLS_NETWORKS.localhost)
 
     // Assert
     expect(resultNetwork).to.deep.equal(expectedNetwork)
   })
 
-  it('should throw an error when network type is not aa', () => {
+  it('should throw an error when network type is not bls', () => {
     // Arrange
     const network = {
       type: 'unsupported',

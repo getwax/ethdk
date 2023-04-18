@@ -1,5 +1,6 @@
 import {
-  Experimental,
+  BlsProvider,
+  BlsSigner,
   BlsWalletWrapper,
   Aggregator,
   VerificationGateway__factory,
@@ -19,8 +20,8 @@ export default class BlsAccount implements Account {
   address: string
   private readonly privateKey: string
   private readonly networkConfig: BlsNetwork
-  private readonly blsProvider: InstanceType<typeof Experimental.BlsProvider>
-  private readonly blsSigner: InstanceType<typeof Experimental.BlsSigner>
+  private readonly blsProvider: BlsProvider
+  private readonly blsSigner: BlsSigner
 
   private constructor({
     address,
@@ -32,8 +33,8 @@ export default class BlsAccount implements Account {
     address: string
     privateKey: string
     network: BlsNetwork
-    provider: InstanceType<typeof Experimental.BlsProvider>
-    signer: InstanceType<typeof Experimental.BlsSigner>
+    provider: BlsProvider
+    signer: BlsSigner
   }) {
     this.address = address
     this.privateKey = privateKey
@@ -48,11 +49,11 @@ export default class BlsAccount implements Account {
   }: {
     privateKey?: string
     network?: Network
-  }): Promise<BlsAccount> {
-    const privateKey = pk ?? (await BlsWalletWrapper.getRandomBlsPrivateKey())
+  } = {}): Promise<BlsAccount> {
+    const privateKey = pk ?? (await BlsSigner.getRandomBlsPrivateKey())
     const networkConfig = getNetwork(network)
 
-    const provider = new Experimental.BlsProvider(
+    const provider = new BlsProvider(
       networkConfig.aggregatorUrl,
       networkConfig.verificationGateway,
       networkConfig.aggregatorUtilities,
