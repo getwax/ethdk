@@ -30,7 +30,7 @@ describe('getNetwork', () => {
     expect(resultNetwork).to.deep.equal(expectedNetwork)
   })
 
-  it('should return the ExternallyOwnedAccountNetwork when network type is aa', () => {
+  it('should return the AccountAbstractionNework when network type is aa', () => {
     // Arrange
     const expectedNetwork = {
       type: 'aa',
