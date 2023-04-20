@@ -46,7 +46,7 @@
 
 #### Defined in
 
-[Bls/BlsAccount.ts:26](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/Bls/BlsAccount.ts#L26)
+[Bls/BlsAccount.ts:26](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/Bls/BlsAccount.ts#L26)
 
 ## Properties
 
@@ -60,7 +60,7 @@ Account.accountType
 
 #### Defined in
 
-[Bls/BlsAccount.ts:18](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/Bls/BlsAccount.ts#L18)
+[Bls/BlsAccount.ts:18](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/Bls/BlsAccount.ts#L18)
 
 ___
 
@@ -74,7 +74,7 @@ Account.address
 
 #### Defined in
 
-[Bls/BlsAccount.ts:20](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/Bls/BlsAccount.ts#L20)
+[Bls/BlsAccount.ts:20](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/Bls/BlsAccount.ts#L20)
 
 ___
 
@@ -84,7 +84,7 @@ ___
 
 #### Defined in
 
-[Bls/BlsAccount.ts:23](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/Bls/BlsAccount.ts#L23)
+[Bls/BlsAccount.ts:23](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/Bls/BlsAccount.ts#L23)
 
 ___
 
@@ -94,7 +94,7 @@ ___
 
 #### Defined in
 
-[Bls/BlsAccount.ts:24](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/Bls/BlsAccount.ts#L24)
+[Bls/BlsAccount.ts:24](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/Bls/BlsAccount.ts#L24)
 
 ___
 
@@ -104,7 +104,7 @@ ___
 
 #### Defined in
 
-[Bls/BlsAccount.ts:22](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/Bls/BlsAccount.ts#L22)
+[Bls/BlsAccount.ts:22](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/Bls/BlsAccount.ts#L22)
 
 ___
 
@@ -114,7 +114,7 @@ ___
 
 #### Defined in
 
-[Bls/BlsAccount.ts:21](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/Bls/BlsAccount.ts#L21)
+[Bls/BlsAccount.ts:21](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/Bls/BlsAccount.ts#L21)
 
 ## Methods
 
@@ -128,7 +128,7 @@ ___
 
 #### Defined in
 
-[Bls/BlsAccount.ts:170](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/Bls/BlsAccount.ts#L170)
+[Bls/BlsAccount.ts:170](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/Bls/BlsAccount.ts#L170)
 
 ___
 
@@ -146,7 +146,7 @@ The balance of this account formated in ether (instead of wei)
 
 #### Defined in
 
-[Bls/BlsAccount.ts:165](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/Bls/BlsAccount.ts#L165)
+[Bls/BlsAccount.ts:165](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/Bls/BlsAccount.ts#L165)
 
 ___
 
@@ -173,7 +173,7 @@ Transaction hash of the transaction that was sent to the aggregator
 
 #### Defined in
 
-[Bls/BlsAccount.ts:133](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/Bls/BlsAccount.ts#L133)
+[Bls/BlsAccount.ts:133](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/Bls/BlsAccount.ts#L133)
 
 ___
 
@@ -201,7 +201,7 @@ Account.sendTransaction
 
 #### Defined in
 
-[Bls/BlsAccount.ts:86](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/Bls/BlsAccount.ts#L86)
+[Bls/BlsAccount.ts:86](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/Bls/BlsAccount.ts#L86)
 
 ___
 
@@ -227,7 +227,7 @@ Transaction hash of the transaction that was sent to the aggregator
 
 #### Defined in
 
-[Bls/BlsAccount.ts:103](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/Bls/BlsAccount.ts#L103)
+[Bls/BlsAccount.ts:103](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/Bls/BlsAccount.ts#L103)
 
 ___
 
@@ -249,7 +249,7 @@ ___
 
 #### Defined in
 
-[Bls/BlsAccount.ts:46](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/Bls/BlsAccount.ts#L46)
+[Bls/BlsAccount.ts:46](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/Bls/BlsAccount.ts#L46)
 
 ___
 
@@ -263,4 +263,4 @@ ___
 
 #### Defined in
 
-[Bls/BlsAccount.ts:77](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/Bls/BlsAccount.ts#L77)
+[Bls/BlsAccount.ts:77](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/Bls/BlsAccount.ts#L77)

@@ -45,4 +45,4 @@ An account of the specified type
 
 #### Defined in
 
-[Ethdk.ts:27](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/Ethdk.ts#L27)
+[Ethdk.ts:27](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/Ethdk.ts#L27)

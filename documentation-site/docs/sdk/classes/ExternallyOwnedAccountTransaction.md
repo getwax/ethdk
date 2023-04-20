@@ -33,7 +33,7 @@
 
 #### Defined in
 
-[ExternallyOwnedAccount/ExternallyOwnedAccountTransaction.ts:15](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/ExternallyOwnedAccount/ExternallyOwnedAccountTransaction.ts#L15)
+[ExternallyOwnedAccount/ExternallyOwnedAccountTransaction.ts:15](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/ExternallyOwnedAccount/ExternallyOwnedAccountTransaction.ts#L15)
 
 ## Properties
 
@@ -47,7 +47,7 @@ Transaction.hash
 
 #### Defined in
 
-[ExternallyOwnedAccount/ExternallyOwnedAccountTransaction.ts:12](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/ExternallyOwnedAccount/ExternallyOwnedAccountTransaction.ts#L12)
+[ExternallyOwnedAccount/ExternallyOwnedAccountTransaction.ts:12](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/ExternallyOwnedAccount/ExternallyOwnedAccountTransaction.ts#L12)
 
 ___
 
@@ -57,7 +57,7 @@ ___
 
 #### Defined in
 
-[ExternallyOwnedAccount/ExternallyOwnedAccountTransaction.ts:13](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/ExternallyOwnedAccount/ExternallyOwnedAccountTransaction.ts#L13)
+[ExternallyOwnedAccount/ExternallyOwnedAccountTransaction.ts:13](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/ExternallyOwnedAccount/ExternallyOwnedAccountTransaction.ts#L13)
 
 ## Methods
 
@@ -71,4 +71,4 @@ ___
 
 #### Defined in
 
-[ExternallyOwnedAccount/ExternallyOwnedAccountTransaction.ts:20](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/ExternallyOwnedAccount/ExternallyOwnedAccountTransaction.ts#L20)
+[ExternallyOwnedAccount/ExternallyOwnedAccountTransaction.ts:20](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/ExternallyOwnedAccount/ExternallyOwnedAccountTransaction.ts#L20)

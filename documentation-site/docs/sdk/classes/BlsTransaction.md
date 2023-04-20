@@ -34,7 +34,7 @@
 
 #### Defined in
 
-[Bls/BlsTransaction.ts:16](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/Bls/BlsTransaction.ts#L16)
+[Bls/BlsTransaction.ts:16](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/Bls/BlsTransaction.ts#L16)
 
 ## Properties
 
@@ -48,7 +48,7 @@ Transaction.hash
 
 #### Defined in
 
-[Bls/BlsTransaction.ts:13](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/Bls/BlsTransaction.ts#L13)
+[Bls/BlsTransaction.ts:13](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/Bls/BlsTransaction.ts#L13)
 
 ___
 
@@ -58,7 +58,7 @@ ___
 
 #### Defined in
 
-[Bls/BlsTransaction.ts:14](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/Bls/BlsTransaction.ts#L14)
+[Bls/BlsTransaction.ts:14](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/Bls/BlsTransaction.ts#L14)
 
 ## Methods
 
@@ -72,7 +72,7 @@ ___
 
 #### Defined in
 
-[Bls/BlsTransaction.ts:32](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/Bls/BlsTransaction.ts#L32)
+[Bls/BlsTransaction.ts:32](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/Bls/BlsTransaction.ts#L32)
 
 ___
 
@@ -86,4 +86,4 @@ ___
 
 #### Defined in
 
-[Bls/BlsTransaction.ts:27](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/Bls/BlsTransaction.ts#L27)
+[Bls/BlsTransaction.ts:27](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/Bls/BlsTransaction.ts#L27)

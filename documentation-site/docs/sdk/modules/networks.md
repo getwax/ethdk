@@ -20,7 +20,7 @@
 
 #### Defined in
 
-[Networks/index.ts:13](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/Networks/index.ts#L13)
+[Networks/index.ts:13](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/Networks/index.ts#L13)
 
 ___
 
@@ -36,7 +36,7 @@ ___
 
 #### Defined in
 
-[Networks/index.ts:5](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/Networks/index.ts#L5)
+[Networks/index.ts:5](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/Networks/index.ts#L5)
 
 ___
 
@@ -52,4 +52,4 @@ ___
 
 #### Defined in
 
-[Networks/index.ts:9](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/Networks/index.ts#L9)
+[Networks/index.ts:9](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/Networks/index.ts#L9)

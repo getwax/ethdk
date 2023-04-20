@@ -47,7 +47,7 @@
 
 #### Defined in
 
-[ExternallyOwnedAccount/ExternallyOwnedAccount.ts:25](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/ExternallyOwnedAccount/ExternallyOwnedAccount.ts#L25)
+[ExternallyOwnedAccount/ExternallyOwnedAccount.ts:25](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/ExternallyOwnedAccount/ExternallyOwnedAccount.ts#L25)
 
 ## Properties
 
@@ -61,7 +61,7 @@ Account.accountType
 
 #### Defined in
 
-[ExternallyOwnedAccount/ExternallyOwnedAccount.ts:16](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/ExternallyOwnedAccount/ExternallyOwnedAccount.ts#L16)
+[ExternallyOwnedAccount/ExternallyOwnedAccount.ts:16](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/ExternallyOwnedAccount/ExternallyOwnedAccount.ts#L16)
 
 ___
 
@@ -75,7 +75,7 @@ Account.address
 
 #### Defined in
 
-[ExternallyOwnedAccount/ExternallyOwnedAccount.ts:18](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/ExternallyOwnedAccount/ExternallyOwnedAccount.ts#L18)
+[ExternallyOwnedAccount/ExternallyOwnedAccount.ts:18](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/ExternallyOwnedAccount/ExternallyOwnedAccount.ts#L18)
 
 ___
 
@@ -85,7 +85,7 @@ ___
 
 #### Defined in
 
-[ExternallyOwnedAccount/ExternallyOwnedAccount.ts:21](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/ExternallyOwnedAccount/ExternallyOwnedAccount.ts#L21)
+[ExternallyOwnedAccount/ExternallyOwnedAccount.ts:21](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/ExternallyOwnedAccount/ExternallyOwnedAccount.ts#L21)
 
 ___
 
@@ -95,7 +95,7 @@ ___
 
 #### Defined in
 
-[ExternallyOwnedAccount/ExternallyOwnedAccount.ts:19](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/ExternallyOwnedAccount/ExternallyOwnedAccount.ts#L19)
+[ExternallyOwnedAccount/ExternallyOwnedAccount.ts:19](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/ExternallyOwnedAccount/ExternallyOwnedAccount.ts#L19)
 
 ___
 
@@ -105,7 +105,7 @@ ___
 
 #### Defined in
 
-[ExternallyOwnedAccount/ExternallyOwnedAccount.ts:22](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/ExternallyOwnedAccount/ExternallyOwnedAccount.ts#L22)
+[ExternallyOwnedAccount/ExternallyOwnedAccount.ts:22](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/ExternallyOwnedAccount/ExternallyOwnedAccount.ts#L22)
 
 ___
 
@@ -115,7 +115,7 @@ ___
 
 #### Defined in
 
-[ExternallyOwnedAccount/ExternallyOwnedAccount.ts:20](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/ExternallyOwnedAccount/ExternallyOwnedAccount.ts#L20)
+[ExternallyOwnedAccount/ExternallyOwnedAccount.ts:20](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/ExternallyOwnedAccount/ExternallyOwnedAccount.ts#L20)
 
 ___
 
@@ -125,7 +125,7 @@ ___
 
 #### Defined in
 
-[ExternallyOwnedAccount/ExternallyOwnedAccount.ts:23](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/ExternallyOwnedAccount/ExternallyOwnedAccount.ts#L23)
+[ExternallyOwnedAccount/ExternallyOwnedAccount.ts:23](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/ExternallyOwnedAccount/ExternallyOwnedAccount.ts#L23)
 
 ## Methods
 
@@ -139,7 +139,7 @@ ___
 
 #### Defined in
 
-[ExternallyOwnedAccount/ExternallyOwnedAccount.ts:149](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/ExternallyOwnedAccount/ExternallyOwnedAccount.ts#L149)
+[ExternallyOwnedAccount/ExternallyOwnedAccount.ts:149](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/ExternallyOwnedAccount/ExternallyOwnedAccount.ts#L149)
 
 ___
 
@@ -163,7 +163,7 @@ Account.sendTransaction
 
 #### Defined in
 
-[ExternallyOwnedAccount/ExternallyOwnedAccount.ts:139](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/ExternallyOwnedAccount/ExternallyOwnedAccount.ts#L139)
+[ExternallyOwnedAccount/ExternallyOwnedAccount.ts:139](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/ExternallyOwnedAccount/ExternallyOwnedAccount.ts#L139)
 
 ___
 
@@ -185,7 +185,7 @@ ___
 
 #### Defined in
 
-[ExternallyOwnedAccount/ExternallyOwnedAccount.ts:48](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/ExternallyOwnedAccount/ExternallyOwnedAccount.ts#L48)
+[ExternallyOwnedAccount/ExternallyOwnedAccount.ts:48](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/ExternallyOwnedAccount/ExternallyOwnedAccount.ts#L48)
 
 ___
 
@@ -207,7 +207,7 @@ ___
 
 #### Defined in
 
-[ExternallyOwnedAccount/ExternallyOwnedAccount.ts:67](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/ExternallyOwnedAccount/ExternallyOwnedAccount.ts#L67)
+[ExternallyOwnedAccount/ExternallyOwnedAccount.ts:67](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/ExternallyOwnedAccount/ExternallyOwnedAccount.ts#L67)
 
 ___
 
@@ -229,7 +229,7 @@ ___
 
 #### Defined in
 
-[ExternallyOwnedAccount/ExternallyOwnedAccount.ts:101](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/ExternallyOwnedAccount/ExternallyOwnedAccount.ts#L101)
+[ExternallyOwnedAccount/ExternallyOwnedAccount.ts:101](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/ExternallyOwnedAccount/ExternallyOwnedAccount.ts#L101)
 
 ___
 
@@ -243,4 +243,4 @@ ___
 
 #### Defined in
 
-[ExternallyOwnedAccount/ExternallyOwnedAccount.ts:135](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/ExternallyOwnedAccount/ExternallyOwnedAccount.ts#L135)
+[ExternallyOwnedAccount/ExternallyOwnedAccount.ts:135](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/ExternallyOwnedAccount/ExternallyOwnedAccount.ts#L135)

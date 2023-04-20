@@ -44,7 +44,7 @@
 
 #### Defined in
 
-[AccountAbstraction/AccountAbstractionAccount.ts:28](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/AccountAbstraction/AccountAbstractionAccount.ts#L28)
+[AccountAbstraction/AccountAbstractionAccount.ts:28](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/AccountAbstraction/AccountAbstractionAccount.ts#L28)
 
 ## Properties
 
@@ -54,7 +54,7 @@
 
 #### Defined in
 
-[AccountAbstraction/AccountAbstractionAccount.ts:25](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/AccountAbstraction/AccountAbstractionAccount.ts#L25)
+[AccountAbstraction/AccountAbstractionAccount.ts:25](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/AccountAbstraction/AccountAbstractionAccount.ts#L25)
 
 ___
 
@@ -64,7 +64,7 @@ ___
 
 #### Defined in
 
-[AccountAbstraction/AccountAbstractionAccount.ts:26](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/AccountAbstraction/AccountAbstractionAccount.ts#L26)
+[AccountAbstraction/AccountAbstractionAccount.ts:26](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/AccountAbstraction/AccountAbstractionAccount.ts#L26)
 
 ___
 
@@ -78,7 +78,7 @@ Account.accountType
 
 #### Defined in
 
-[AccountAbstraction/AccountAbstractionAccount.ts:20](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/AccountAbstraction/AccountAbstractionAccount.ts#L20)
+[AccountAbstraction/AccountAbstractionAccount.ts:20](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/AccountAbstraction/AccountAbstractionAccount.ts#L20)
 
 ___
 
@@ -92,7 +92,7 @@ Account.address
 
 #### Defined in
 
-[AccountAbstraction/AccountAbstractionAccount.ts:22](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/AccountAbstraction/AccountAbstractionAccount.ts#L22)
+[AccountAbstraction/AccountAbstractionAccount.ts:22](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/AccountAbstraction/AccountAbstractionAccount.ts#L22)
 
 ___
 
@@ -102,7 +102,7 @@ ___
 
 #### Defined in
 
-[AccountAbstraction/AccountAbstractionAccount.ts:24](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/AccountAbstraction/AccountAbstractionAccount.ts#L24)
+[AccountAbstraction/AccountAbstractionAccount.ts:24](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/AccountAbstraction/AccountAbstractionAccount.ts#L24)
 
 ___
 
@@ -112,7 +112,7 @@ ___
 
 #### Defined in
 
-[AccountAbstraction/AccountAbstractionAccount.ts:23](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/AccountAbstraction/AccountAbstractionAccount.ts#L23)
+[AccountAbstraction/AccountAbstractionAccount.ts:23](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/AccountAbstraction/AccountAbstractionAccount.ts#L23)
 
 ## Methods
 
@@ -130,7 +130,7 @@ The balance of this account formated in ether (instead of wei)
 
 #### Defined in
 
-[AccountAbstraction/AccountAbstractionAccount.ts:97](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/AccountAbstraction/AccountAbstractionAccount.ts#L97)
+[AccountAbstraction/AccountAbstractionAccount.ts:97](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/AccountAbstraction/AccountAbstractionAccount.ts#L97)
 
 ___
 
@@ -154,7 +154,7 @@ Account.sendTransaction
 
 #### Defined in
 
-[AccountAbstraction/AccountAbstractionAccount.ts:79](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/AccountAbstraction/AccountAbstractionAccount.ts#L79)
+[AccountAbstraction/AccountAbstractionAccount.ts:79](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/AccountAbstraction/AccountAbstractionAccount.ts#L79)
 
 ___
 
@@ -176,7 +176,7 @@ ___
 
 #### Defined in
 
-[AccountAbstraction/AccountAbstractionAccount.ts:48](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/AccountAbstraction/AccountAbstractionAccount.ts#L48)
+[AccountAbstraction/AccountAbstractionAccount.ts:48](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/AccountAbstraction/AccountAbstractionAccount.ts#L48)
 
 ___
 
@@ -190,7 +190,7 @@ ___
 
 #### Defined in
 
-[AccountAbstraction/AccountAbstractionAccount.ts:89](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/AccountAbstraction/AccountAbstractionAccount.ts#L89)
+[AccountAbstraction/AccountAbstractionAccount.ts:89](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/AccountAbstraction/AccountAbstractionAccount.ts#L89)
 
 ___
 
@@ -212,4 +212,4 @@ ___
 
 #### Defined in
 
-[AccountAbstraction/AccountAbstractionAccount.ts:104](https://github.com/web3well/ethdk/blob/89d0f1c/ethdk/src/AccountAbstraction/AccountAbstractionAccount.ts#L104)
+[AccountAbstraction/AccountAbstractionAccount.ts:104](https://github.com/web3well/ethdk/blob/dc49f5a/ethdk/src/AccountAbstraction/AccountAbstractionAccount.ts#L104)
