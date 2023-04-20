@@ -70,7 +70,7 @@ const config = {
         title: "EthDK",
         logo: {
           alt: "EthDK Logo",
-          src: "img/logo.svg",
+          src: "img/logo.png",
         },
         items: [
           {
