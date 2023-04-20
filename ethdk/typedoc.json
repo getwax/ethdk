@@ -1,0 +1,10 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "plugin": ["typedoc-plugin-markdown"],
+  "tsconfig": "./tsconfig.json",
+  "namedAnchors": true,
+  "hideBreadcrumbs": true,
+  "hidePageTitle": true,
+  "out": "../documentation-site/docs/sdk",
+  "entryPoints": ["src/index.ts"]
+}
