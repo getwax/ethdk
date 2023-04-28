@@ -57,12 +57,13 @@ function Header() {
             </Link>
           </div>
           <h1 className="mt-10 text-4xl font-bold tracking-tight text-white sm:text-6xl">
-            Unlock Web3 Development
+            Cutting-Edge Ethereum Account Management
           </h1>
           <p className="mt-6 text-lg leading-8 text-gray-300">
-            EthDK simplifies Ethereum development with an intuitive Node module,
-            empowering web2 developers to seamlessly integrate web3 components
-            and create innovative applications with ease.
+            Unlock the full potential of Ethereum accounts with EthDK, a
+            powerful and easy-to-use Node.js module designed to streamline
+            account creation, interaction, and experimentation with the latest
+            features in the Ethereum ecosystem.
           </p>
           <div className="mt-10 flex items-center gap-x-6">
             <Link
