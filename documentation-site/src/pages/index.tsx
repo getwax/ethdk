@@ -60,7 +60,7 @@ function Header() {
             Cutting-Edge Ethereum Account Management
           </h1>
           <p className="mt-6 text-lg leading-8 text-gray-300">
-            Unlock the full potential of Ethereum accounts with ethdk, a
+            Unlock the full potential of Ethereum accounts with EthDK, a
             powerful and easy-to-use Node.js module designed to streamline
             account creation, interaction, and experimentation with the latest
             features in the Ethereum ecosystem.

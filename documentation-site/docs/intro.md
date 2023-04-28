@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # Introduction
 
-`ethdk` is a Node.js module built by the Wallet Account eXperiments (WAX) team within the Privacy and Scaling Explorations group at the Ethereum Foundation. The primary goal of this package is to enable developers to easily create Ethereum accounts that utilize cutting-edge and experimental features. This documentation provides an overview of the `ethdk` package, its background, and its intended purpose.
+`ethdk` is a Node.js module led by the Wallet Account eXperiments (WAX) team within the Privacy and Scaling Explorations group at the Ethereum Foundation. The primary goal of this package is to enable developers to easily create Ethereum accounts that utilize cutting-edge and experimental features. This documentation provides an overview of the `ethdk` package, its background, and its intended purpose.
 
 ## Origins and Evolution
 
