@@ -3,6 +3,16 @@ import sinon from 'sinon'
 import { BLS_NETWORKS } from '../../src/Networks'
 import { getNetwork } from '../../src/Bls/BlsNetworks'
 
+const network = {
+  type: 'bls',
+  name: 'localhost',
+  chainId: 1337,
+  rpcUrl: 'http://localhost:8545',
+  aggregatorUrl: 'http://localhost:3000',
+  aggregatorUtilities: '0x76cE3c1F2E6d87c355560fCbd28ccAcAe03f95F6',
+  verificationGateway: '0x689A095B4507Bfa302eef8551F90fB322B3451c6',
+}
+
 describe('getNetwork', () => {
   afterEach(() => {
     sinon.restore()
@@ -10,7 +20,7 @@ describe('getNetwork', () => {
 
   it('should return the default network when network is undefined', () => {
     // Arrange
-    const expectedNetwork = BLS_NETWORKS.localhost
+    const expectedNetwork = BLS_NETWORKS.arbitrumGoerli
 
     // Act
     const resultNetwork = getNetwork(undefined)
@@ -21,7 +31,7 @@ describe('getNetwork', () => {
 
   it('should return the default network when network is null', () => {
     // Arrange
-    const expectedNetwork = BLS_NETWORKS.localhost
+    const expectedNetwork = BLS_NETWORKS.arbitrumGoerli
 
     // Act
     const resultNetwork = getNetwork(null as any)
@@ -43,7 +53,7 @@ describe('getNetwork', () => {
     }
 
     // Act
-    const resultNetwork = getNetwork(BLS_NETWORKS.localhost)
+    const resultNetwork = getNetwork(network)
 
     // Assert
     expect(resultNetwork).to.deep.equal(expectedNetwork)

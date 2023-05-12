@@ -34,7 +34,7 @@ import { createAccount, networks } from "ethdk";
 async function main() {
   const blsAccount = await createAccount({
     accountType: "bls",
-    network: networks.BLS_NETWORKS.localhost,
+    network: networks.BLS_NETWORKS.arbitrumGoerli,
   });
 
   const eoaAccount = await createAccount({
@@ -63,7 +63,7 @@ import { createAccount, networks } from "ethdk";
 async function main() {
   const blsAccount = await createAccount({
     accountType: "bls",
-    network: networks.BLS_NETWORKS.localhost,
+    network: networks.BLS_NETWORKS.arbitrumBoerli,
   });
 
   const recoveryPhrase = "Do not forget this!";

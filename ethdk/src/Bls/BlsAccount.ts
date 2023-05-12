@@ -3,7 +3,7 @@ import {
   BlsSigner,
   BlsWalletWrapper,
   Aggregator,
-  VerificationGateway__factory,
+  VerificationGatewayFactory,
   type Bundle,
 } from 'bls-wallet-clients'
 import { ethers } from 'ethers'
@@ -140,15 +140,23 @@ export default class BlsAccount implements Account {
       this.networkConfig.verificationGateway,
       this.blsProvider,
     )
-    const verificationGateway = VerificationGateway__factory.connect(
+    const verificationGateway = VerificationGatewayFactory.connect(
       this.networkConfig.verificationGateway,
       this.blsProvider,
     )
+    const latestBlock = await this.blsProvider.getBlock('latest')
+    const signatureExpiryOffsetSeconds = 20 * 60 // 20 minutes
+    const safetyDelaySeconds = 7 * 24 * 60 * 60 // one week
+
+    const signatureExpiryTimestamp =
+      latestBlock.timestamp + safetyDelaySeconds + signatureExpiryOffsetSeconds
+
     const bundle = await wallet.getRecoverWalletBundle(
       compromisedAccountAddress,
       newPrivateKey,
       recoveryPhrase,
       verificationGateway,
+      signatureExpiryTimestamp,
     )
 
     return await addBundleToAggregator(

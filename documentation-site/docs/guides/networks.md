@@ -15,7 +15,7 @@ import { networks, createAccount } from "ethdk";
 
 const account = await createAccount({
   accountType: "bls",
-  network: networks.BLS_NETWORKS.localhost,
+  network: networks.BLS_NETWORKS.arbitrumGoerli,
 });
 
 const { address } = account;

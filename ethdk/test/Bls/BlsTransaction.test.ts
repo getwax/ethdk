@@ -2,7 +2,16 @@ import { expect } from 'chai'
 import sinon from 'sinon'
 import { Aggregator } from 'bls-wallet-clients'
 import BlsTransaction from '../../src/Bls/BlsTransaction'
-import { BLS_NETWORKS } from '../../src/Networks'
+
+const network = {
+  type: 'bls',
+  name: 'localhost',
+  chainId: 1337,
+  rpcUrl: 'http://localhost:8545',
+  aggregatorUrl: 'http://localhost:3000',
+  aggregatorUtilities: '0x76cE3c1F2E6d87c355560fCbd28ccAcAe03f95F6',
+  verificationGateway: '0x689A095B4507Bfa302eef8551F90fB322B3451c6',
+}
 
 describe('BlsTransaction', () => {
   afterEach(() => {
@@ -26,7 +35,7 @@ describe('BlsTransaction', () => {
         .returns(mockAggregator as any)
 
       const transaction = new BlsTransaction({
-        network: BLS_NETWORKS.localhost,
+        network,
         bundleHash,
       })
 
