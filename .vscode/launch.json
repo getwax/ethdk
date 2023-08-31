@@ -1,0 +1,17 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Run Yarn Test",
+      "runtimeExecutable": "yarn",
+      "runtimeArgs": [
+        "test"
+      ],
+      "cwd": "${workspaceFolder}/ethdk",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    }
+  ]
+}
